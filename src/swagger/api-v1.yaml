@@ -1,0 +1,7 @@
+swagger: '2.0'
+info:
+  title: Kased API
+  description: A Rest API for Kased ecommerce application
+  version: 1.0.0
+  contact:
+    name: Kased
