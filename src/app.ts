@@ -9,6 +9,9 @@ const SWAGGER_YAML_FILE_PATH = 'swagger/api-v1.yaml';
 
 connectToDbClient(); // connect to mongo database
 
+// use middleware
+app.use(express.json()); // use express body parser
+
 // Swagger configuration for API documentation
 const swaggerOptions = {
   customSiteTitle: 'Kased API',
