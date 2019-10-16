@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "tslint:recommended" 
+  ],
+  "rules": {
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "import-spacing": true,
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "indent": [true, "spaces", 2],
+    "eofline": true,
+    "newline-before-return": true,
+    "new-parens": true,
+    "no-trailing-whitespace": [true],
+    "number-literal-format": true,
+    "semicolon": [true, "always"],
+    "trailing-comma": false,
+    "triple-equals": [true, "allow-null-check"],
+    "quotemark": [true, "single"],
+    "no-consecutive-blank-lines": [true, 2],
+    "no-irregular-whitespace": true,
+    "whitespace": [
+    true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-separator",
+      "check-type"
+    ]
+  }
+}
