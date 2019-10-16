@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import logger from '../helpers/logger';
-import { SuccessMessage, ErrorMessage } from '../domain/enums';
+import { SuccessMessage, ErrorMessage } from '../constants';
 
 const DB_HOST = `${process.env.DB_HOST}`;
 
