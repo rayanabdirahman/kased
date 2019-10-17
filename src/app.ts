@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import user from './api/user.route';
 import connectToDbClient from './data_access/db_client';
 import * as swaggerUi from 'swagger-ui-express';
@@ -10,7 +11,8 @@ const SWAGGER_YAML_FILE_PATH = 'swagger/api-v1.yaml';
 connectToDbClient(); // connect to mongo database
 
 // use middleware
-app.use(express.json()); // use express body parser
+app.use(express.json()); // use express body parser to access req.body
+app.use(cookieParser()); // use express cookie parser to parse cookie header and populate req.cookies
 
 // Swagger configuration for API documentation
 const swaggerOptions = {
