@@ -1,4 +1,4 @@
-import { ISignUpModel } from './../domain/interfaces';
+import { ISignUpModel } from '../domain/interfaces';
 // import encryptPassword from '../../helpers/encrypt';
 import logger from '../helpers/logger';
 import { ErrorMessage } from '../constants';

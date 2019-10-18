@@ -1,4 +1,4 @@
-import { ErrorMessage } from './../../constants';
+import { ErrorMessage } from '../../constants';
 import express from 'express';
 import UserService from '../../services/user.service';
 import logger from '../../helpers/logger';
