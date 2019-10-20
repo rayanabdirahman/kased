@@ -4,7 +4,6 @@ export interface ISignUpModel {
   vatNumber?: string;
   email: string;
   password: string;
-  confirmPassword: string;
   organisationName?: string;
   businessType?: string;
   occupationTitle?: string;

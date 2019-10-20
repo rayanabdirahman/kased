@@ -11,7 +11,6 @@ export class UserValidator {
     lastName: Joi.string().min(2).max(32).required(),
     email: Joi.string().required(),
     password: Joi.string().min(6).required(),
-    confirmPassword: Joi.string().min(6).required(),
     organisationName: Joi.string(),
     businessType: Joi.string(),
     occupationTitle: Joi.string(),

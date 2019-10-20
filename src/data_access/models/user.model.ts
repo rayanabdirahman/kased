@@ -7,7 +7,6 @@ const UserSchema = new mongoose.Schema({
   vatNumber: { type: String, trim: true, },
   email: { type: String, trim: true, required: true, unique: 32 },
   password: { type: String, required: true },
-  confirmPassword: { type: String, required: true },
   organisationName: { type: String },
   businessType: { type: String },
   occupationTitle: { type: String },
