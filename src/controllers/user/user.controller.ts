@@ -26,13 +26,15 @@ export default class UserController {
         return res.status(400).json({error: message});
       }
 
+      // register user to database
       const user = await this.userService.signUp(signUpModel);
 
       res.send({user});
 
     } catch (error) {
-      logger.error(`<<<UserController.signUp>>> ${ErrorMessage.SIGN_UP_USER}: `, error.message);
-      res.send({ error });
+      const message = error.message || error;
+      logger.error(`<<<UserController.signUp>>> ${ErrorMessage.SIGN_UP_USER}: ${message}`);
+      res.send({ error: message });
     }
   }
 }
