@@ -1,11 +1,11 @@
-import { ILoginModel } from './../domain/interfaces';
+import { ILoginModel } from '../domain/interfaces';
 import { ISignUpModel } from '../domain/interfaces';
 import { ErrorMessage } from '../constants';
 import User from '../data_access/models/user.model';
 import { bycryptHelper } from '../helpers/bycrypt';
 import { jwtHelper } from '../helpers/jwt';
 
-export default class UserService {
+export default class AuthService {
 
   public signUp = async (model: ISignUpModel) => {
     // check if email exists

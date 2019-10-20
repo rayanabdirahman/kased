@@ -1,16 +1,16 @@
 import express from 'express';
 import { ErrorMessage, SuccessMessage  } from '../../constants';
-import UserService from '../../services/user.service';
+import AuthService from '../../services/auth.service';
 import logger from '../../helpers/logger';
 import { ISignUpModel, ILoginModel } from '../../domain/interfaces';
-import { UserValidator } from './user.validation';
+import { AuthValidator } from './auth.validation';
 
-export default class UserController {
-  private userService: UserService;
+export default class AuthController {
+  private authService: AuthService;
   private cookieName: string;
 
   constructor() {
-    this.userService = new UserService();
+    this.authService = new AuthService();
     this.cookieName = '_kasedUserToken';
   }
 
@@ -26,7 +26,7 @@ export default class UserController {
       };
 
       // validate request
-      const validity = UserValidator.signUp(signUpModel);
+      const validity = AuthValidator.signUp(signUpModel);
       if (validity.error) {
         const { message } = validity.error;
 
@@ -34,13 +34,13 @@ export default class UserController {
       }
 
       // register user to database
-      const user = await this.userService.signUp(signUpModel);
+      const user = await this.authService.signUp(signUpModel);
 
       res.send({user});
 
     } catch (error) {
       const message = error.message || error;
-      logger.error(`<<<UserController.signUp>>> ${ErrorMessage.SIGN_UP_USER}: ${message}`);
+      logger.error(`<<<AuthController.signUp>>> ${ErrorMessage.SIGN_UP_USER}: ${message}`);
       res.send({ error: message });
     }
   }
@@ -57,7 +57,7 @@ export default class UserController {
       };
 
       // validate request
-      const validity = UserValidator.login(loginModel);
+      const validity = AuthValidator.login(loginModel);
       if (validity.error) {
         const { message } = validity.error;
 
@@ -65,7 +65,7 @@ export default class UserController {
       }
 
       // log user in
-      const user = await this.userService.login(loginModel);
+      const user = await this.authService.login(loginModel);
 
       // add JWT token to cookie as user_token
       const COOKIE_EXPIRES_IN = new Date(Number(new Date()) + Number(`${process.env.JWT_COOKIE_EXPIRES_IN}`) );
@@ -78,7 +78,7 @@ export default class UserController {
 
     } catch (error) {
       const message = error.message || error;
-      logger.error(`<<<UserController.login>>> ${ErrorMessage.LOGIN_USER}: ${message}`);
+      logger.error(`<<<AuthController.login>>> ${ErrorMessage.LOGIN_USER}: ${message}`);
       res.status(401).send({ error: message });
     }
   }

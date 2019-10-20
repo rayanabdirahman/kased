@@ -1,7 +1,7 @@
 import * as Joi from '@hapi/joi';
 import { ISignUpModel, ILoginModel } from '../../domain/interfaces';
 
-export class UserValidator {
+export class AuthValidator {
   public static signUp(signUpModel: ISignUpModel): Joi.ValidationResult {
     return this.signUpSchema.validate(signUpModel);
   }
