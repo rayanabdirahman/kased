@@ -72,12 +72,12 @@ export default class UserController {
 
       // send user details to client
       const { _id, firstName, lastName, email, role } = user.user;
-      res.status(200).json({ token, _id, firstName, lastName, email, role});
+      res.status(200).json({ token, user: {_id, firstName, lastName, email, role}});
 
     } catch (error) {
       const message = error.message || error;
       logger.error(`<<<UserController.login>>> ${ErrorMessage.LOGIN_USER}: ${message}`);
-      res.send({ error: message });
+      res.status(401).send({ error: message });
     }
   }
 }

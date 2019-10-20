@@ -4,6 +4,7 @@ export enum ErrorMessage {
   LOGIN_USER = 'Unable to log user in to application',
   EMAIL_IS_TAKEN = 'Email is already taken',
   USER_DOES_NOT_EXIST = 'User with that email does not exist',
+  INVALID_DETAILS = 'Invalid credentials',
 }
 
 export enum SuccessMessage {

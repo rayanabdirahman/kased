@@ -2,7 +2,7 @@ import { ILoginModel } from './../domain/interfaces';
 import { ISignUpModel } from '../domain/interfaces';
 import { ErrorMessage } from '../constants';
 import User from '../data_access/models/user.model';
-import encryptPassword from '../helpers/encrypt';
+import { bycryptHelper } from '../helpers/bycrypt';
 import { jwtHelper } from '../helpers/jwt';
 
 export default class UserService {
@@ -17,7 +17,7 @@ export default class UserService {
     const user = new User(model);
 
     // encrypt password
-    user.password = await encryptPassword(user.password);
+    user.password = await bycryptHelper.encryptPassword(user.password);
 
     // save user to DB
     await user.save();
@@ -33,6 +33,10 @@ export default class UserService {
     }
 
     // check if passwords match
+    const isMatch = await bycryptHelper.comparePassword(model.password, user.password);
+    if (!isMatch) {
+      throw new Error(ErrorMessage.INVALID_DETAILS);
+    }
 
     // genereate JWT token with user model;
     const token = await jwtHelper.signJWTToken(user);
