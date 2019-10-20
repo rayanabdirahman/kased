@@ -1,5 +1,5 @@
-import { ErrorMessage } from '../../constants';
 import express from 'express';
+import { ErrorMessage, SuccessMessage  } from '../../constants';
 import UserService from '../../services/user.service';
 import logger from '../../helpers/logger';
 import { ISignUpModel, ILoginModel } from '../../domain/interfaces';
@@ -7,9 +7,11 @@ import { UserValidator } from './user.validation';
 
 export default class UserController {
   private userService: UserService;
+  private cookieName: string;
 
   constructor() {
     this.userService = new UserService();
+    this.cookieName = '_kasedUserToken';
   }
 
   /**
@@ -68,7 +70,7 @@ export default class UserController {
       // add JWT token to cookie as user_token
       const COOKIE_EXPIRES_IN = new Date(Number(new Date()) + Number(`${process.env.JWT_COOKIE_EXPIRES_IN}`) );
       const token = user.token;
-      res.cookie('user_token', token, { expires: COOKIE_EXPIRES_IN});
+      res.cookie(this.cookieName, token, { expires: COOKIE_EXPIRES_IN});
 
       // send user details to client
       const { _id, firstName, lastName, email, role } = user.user;
@@ -79,5 +81,17 @@ export default class UserController {
       logger.error(`<<<UserController.login>>> ${ErrorMessage.LOGIN_USER}: ${message}`);
       res.status(401).send({ error: message });
     }
+  }
+
+  /**
+   * Log user out of application
+   * @param { express.Request }
+   * @param {express.Response }
+   */
+  public logout = (req: express.Request, res: express.Response) => {
+    // clear cookie containing JWT token
+    res.clearCookie(this.cookieName);
+
+    res.status(200).json({ message: SuccessMessage.LOG_OUT_USER});
   }
 }

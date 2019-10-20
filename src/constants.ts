@@ -10,4 +10,5 @@ export enum ErrorMessage {
 export enum SuccessMessage {
   DB_CONNECTION = 'Successfully connected to DbClient',
   SIGN_UP_USER = 'Successfully registered user to databse',
+  LOG_OUT_USER = 'Successfully logged user out',
 }
