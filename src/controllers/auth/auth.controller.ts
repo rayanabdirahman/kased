@@ -99,4 +99,21 @@ export default class AuthController {
 
     res.status(200).json({ message: SuccessMessage.LOG_OUT_USER});
   }
+
+  public isAuth = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const user = req.body.profile && req.auth && req.body.profile.id === req.auth.user.id;
+    if (!user) {
+      return res.status(403).json({ error: 'Access Denied'});
+    }
+
+    next();
+  }
+
+  public isAdmin = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (req.body.profile.role === 0) {
+      return res.status(403).json({ error: 'Admin Resource: Access Denied. Please login as admin'});
+    }
+
+    next();
+  }
 }
