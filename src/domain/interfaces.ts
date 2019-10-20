@@ -10,3 +10,8 @@ export interface ISignUpModel {
   role?: number;
   history?: [];
 }
+
+export interface ILoginModel {
+  email: string;
+  password: string;
+}

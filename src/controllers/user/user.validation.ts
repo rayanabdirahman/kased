@@ -1,9 +1,13 @@
 import * as Joi from '@hapi/joi';
-import { ISignUpModel } from '../../domain/interfaces';
+import { ISignUpModel, ILoginModel } from '../../domain/interfaces';
 
 export class UserValidator {
   public static signUp(signUpModel: ISignUpModel): Joi.ValidationResult {
     return this.signUpSchema.validate(signUpModel);
+  }
+
+  public static login(loginModel: ILoginModel): Joi.ValidationResult {
+    return this.loginSchema.validate(loginModel);
   }
 
   private static signUpSchema: Joi.ObjectSchema = Joi.object({
@@ -16,5 +20,10 @@ export class UserValidator {
     occupationTitle: Joi.string(),
     role: Joi.string(),
     history: Joi.array(),
+  });
+
+  private static loginSchema: Joi.ObjectSchema = Joi.object({
+    email: Joi.string().required(),
+    password: Joi.string().min(6).required(),
   });
 }

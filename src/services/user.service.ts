@@ -1,10 +1,9 @@
+import { ILoginModel } from './../domain/interfaces';
 import { ISignUpModel } from '../domain/interfaces';
-// import encryptPassword from '../../helpers/encrypt';
-import logger from '../helpers/logger';
 import { ErrorMessage } from '../constants';
 import User from '../data_access/models/user.model';
-import { DbErrorHandler } from '../helpers/errorhandler';
 import encryptPassword from '../helpers/encrypt';
+import { jwtHelper } from '../helpers/jwt';
 
 export default class UserService {
 
@@ -26,14 +25,30 @@ export default class UserService {
     return user;
   }
 
+  public login = async (model: ILoginModel) => {
+    // check if email exists
+    const user = await this.isEmailTaken(model.email);
+    if (!user) {
+      throw new Error(ErrorMessage.USER_DOES_NOT_EXIST);
+    }
+
+    // check if passwords match
+
+    // genereate JWT token with user model;
+    const token = await jwtHelper.signJWTToken(user);
+
+    return { user, token};
+  }
+
   /**
    * Checks if email already exists in database
    * @param { string } email - email the user is signing up with
    */
-  private async isEmailTaken(email: string): Promise<boolean> {
+  private async isEmailTaken(email: string): Promise<any> {
     const user = await User.findOne({ email });
     if (user) {
-      return Promise.resolve(true);
+      // return Promise.resolve(true);
+      return Promise.resolve(user);
     }
 
     return Promise.resolve(false);
