@@ -1,4 +1,5 @@
 import express from 'express';
+import expressJwt from 'express-jwt';
 import { ErrorMessage, SuccessMessage  } from '../../constants';
 import AuthService from '../../services/auth.service';
 import logger from '../../helpers/logger';
@@ -6,6 +7,10 @@ import { ISignUpModel, ILoginModel } from '../../domain/interfaces';
 import { AuthValidator } from './auth.validation';
 
 export default class AuthController {
+  public authGuard = expressJwt({
+    secret: `${process.env.JWT_SECRET}`,
+    userProperty: 'auth'
+  });
   private authService: AuthService;
   private cookieName: string;
 
