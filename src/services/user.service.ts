@@ -3,6 +3,7 @@ import { ISignUpModel } from '../domain/interfaces';
 import logger from '../helpers/logger';
 import { ErrorMessage } from '../constants';
 import User from '../data_access/models/user.model';
+import { DbErrorHandler } from '../helpers/errorhandler';
 
 export default class UserService {
   public signUp = async (signUpModel: ISignUpModel) => {
@@ -17,8 +18,10 @@ export default class UserService {
 
     } catch (error) {
       logger.error(`<<<UserService.signUp>>> ${ErrorMessage.SIGN_UP_USER}: `, error);
+      const errorMessage = DbErrorHandler(error);
 
-      return error;
+      // return error;
+      return errorMessage;
     }
   }
 }
