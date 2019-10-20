@@ -14,31 +14,16 @@ export default class UserService {
       throw new Error(ErrorMessage.EMAIL_IS_TAKEN);
     }
 
+    // create new user instance
     const user = new User(model);
+
+    // encrypt password
+    user.password = await encryptPassword(user.password);
 
     // save user to DB
     await user.save();
 
     return user;
-
-    // return model;
-
-    // try {
-
-    //   // const user = signUpModel;
-    //   const user = new User(model);
-
-    //   await user.save();
-
-    //   return user;
-
-    // } catch (error) {
-    //   logger.error(`<<<UserService.signUp>>> ${ErrorMessage.SIGN_UP_USER}: `, error);
-    //   const errorMessage = DbErrorHandler(error);
-
-    //   // return error;
-    //   return errorMessage;
-    // }
   }
 
   /**
