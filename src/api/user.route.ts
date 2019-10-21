@@ -7,9 +7,10 @@ const userController = new UserController();
 const authController = new AuthController();
 
 router.param('userId', userController.findById);
-router.get('/secret/:userId', authController.authGuard, authController.isAuth, authController.isAdmin, (req, res) => {
+router.get('/secret/:userId', authController.authGuard, authController.isAuth, authController.isAdmin,
+(req: any, res: any) => {
   res.json({
-    user: req.body.profile
+    user: req.profile
   });
 });
 

@@ -1,6 +1,7 @@
 import express from 'express';
 import UserService from '../../services/user.service';
 import logger from '../../helpers/logger';
+import { IExtendedRequest } from '../../custom';
 
 export default class UserController {
   private userService: UserService;
@@ -9,7 +10,7 @@ export default class UserController {
     this.userService = new UserService();
   }
 
-  public findById = async (req: express.Request, res: express.Response, next: express.NextFunction, id: string) => {
+  public findById = async (req: IExtendedRequest, res: express.Response, next: express.NextFunction, id: string) => {
     try {
 
       // find user by Id
@@ -20,7 +21,7 @@ export default class UserController {
 
       // add user details to request object
       // TODO: Extend Request type to allow `profile` to be attached to request
-      req.body.profile = user;
+      req.profile = user;
 
       next();
     } catch (error) {

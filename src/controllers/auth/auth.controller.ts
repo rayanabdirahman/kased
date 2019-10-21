@@ -5,6 +5,7 @@ import AuthService from '../../services/auth.service';
 import logger from '../../helpers/logger';
 import { ISignUpModel, ILoginModel } from '../../domain/interfaces';
 import { AuthValidator } from './auth.validation';
+import { IExtendedRequest } from '../../custom';
 
 export default class AuthController {
   public authGuard = expressJwt({
@@ -100,8 +101,8 @@ export default class AuthController {
     res.status(200).json({ message: SuccessMessage.LOG_OUT_USER});
   }
 
-  public isAuth = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const user = req.body.profile && req.auth && req.body.profile.id === req.auth.user.id;
+  public isAuth = (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
+    const user = req.profile && req.auth && req.profile.id === req.auth.user.id;
     if (!user) {
       return res.status(403).json({ error: 'Access Denied'});
     }
@@ -109,9 +110,12 @@ export default class AuthController {
     next();
   }
 
-  public isAdmin = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    if (req.body.profile.role === 0) {
-      return res.status(403).json({ error: 'Admin Resource: Access Denied. Please login as admin'});
+  public isAdmin = (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
+    // add a type guard to avoid undefined typescript error
+    if (req.profile) {
+      if (req.profile.role === 0) {
+        return res.status(403).json({ error: 'Admin Resource: Access Denied. Please login as admin'});
+      }
     }
 
     next();
