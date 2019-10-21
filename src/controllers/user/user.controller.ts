@@ -20,7 +20,6 @@ export default class UserController {
       }
 
       // add user details to request object
-      // TODO: Extend Request type to allow `profile` to be attached to request
       req.profile = user;
 
       next();
