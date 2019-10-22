@@ -1,4 +1,6 @@
 import express from 'express';
+import formidable from 'formidable';
+import * as _ from 'lodash';
 import logger from '../../helpers/logger';
 import ProductService from '../../services/product.service';
 import { ICreateProductModel } from '../../domain/interfaces';
@@ -18,18 +20,37 @@ export default class ProductController {
         ...req.body
       };
 
-      // validate request
-      const validity = ProductValidator.create(createProductModel);
-      if (validity.error) {
-        const { message } = validity.error;
+      let product: any;
 
-        return res.status(400).json({error: message});
-      }
+      // validate request
+      // const validity = ProductValidator.create(createProductModel);
+      // if (validity.error) {
+      //   const { message } = validity.error;
+
+      //   return res.status(400).json({error: message});
+      // }
+
+      // handle form data to allow for product image upload
+      const form = new formidable.IncomingForm();
+      form.keepExtensions = true;
+      form.parse(req, async (error, fields, files) => {
+        // check if there was an error when uploading image
+        if (error) {
+          const message = error.message || error;
+          logger.error(`<<<ProductController.create>>> ${ErrorMessage.PRODUCT_IMAGE_UPLOAD}: ${message}`);
+
+          return res.status(400).json({error: ErrorMessage.PRODUCT_IMAGE_UPLOAD});
+        }
+
+        // register product to database
+        product = await this.productService.create(fields, files);
+
+        res.json(product);
+      });
 
       // register product to database
-      const product = await this.productService.create(createProductModel);
+      // const product = await this.productService.create(createProductModel);
 
-      res.send({ product });
 
     } catch (error) {
       const message = error.message || error;

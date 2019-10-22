@@ -9,7 +9,7 @@ const authController = new AuthController(); // TODO: MOVE RESUED AUTH METHODS I
 const userController = new UserController(); // TODO: MOVE RESUED USERID METHOD INTO MIDDLEWARE FOLDER
 
 // Authorised Admin user can only create categories
-router.post('/product/:userId',
+router.post('/create/:userId',
   authController.authGuard,
   authController.isAuth,
   authController.isAdmin,

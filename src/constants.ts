@@ -6,7 +6,8 @@ export enum ErrorMessage {
   USER_DOES_NOT_EXIST = 'User with that email does not exist',
   INVALID_DETAILS = 'Invalid credentials',
   CREATE_CATEGORY = 'Unable to create category',
-  CREATE_PRODUCT = 'Unable to create products'
+  CREATE_PRODUCT = 'Unable to create products',
+  PRODUCT_IMAGE_UPLOAD = 'Unable to upload product image'
 }
 
 export enum SuccessMessage {

@@ -22,4 +22,10 @@ export interface ICreateCategoryModel {
 
 export interface ICreateProductModel {
   name: string;
+  description: string;
+  price: number;
+  category: string;
+  quantity: number;
+  photo: string;
+  shipping?: boolean;
 }
