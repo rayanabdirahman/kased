@@ -16,3 +16,13 @@ export interface IUser extends mongoose.Document {
 export interface ICategory extends mongoose.Document {
   name: string;
 }
+
+export interface IProduct extends mongoose.Document {
+  name: string;
+  description: string;
+  price: number;
+  category: ICategory;
+  quantity: number;
+  photo: string;
+  shipping: boolean;
+}
