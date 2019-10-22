@@ -2,6 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import auth from './api/auth.route';
 import user from './api/user.route';
+import category from './api/category.route';
 import connectToDbClient from './data_access/db_client';
 import * as swaggerUi from 'swagger-ui-express';
 import * as YAML from 'yamljs';
@@ -44,8 +45,9 @@ app.get('/api', (req: express.Request, res: express.Response) => {
   res.send({ 'Kased API': 'Version 1' });
 });
 
-// api routes to handle authorisation
+// api routes
 app.use('/api/auth', auth);
 app.use('/api/user', user);
+app.use('/api/category', category);
 
 export default app;

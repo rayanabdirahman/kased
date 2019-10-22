@@ -15,3 +15,7 @@ export interface ILoginModel {
   email: string;
   password: string;
 }
+
+export interface ICreateCategoryModel {
+  name: string;
+}
