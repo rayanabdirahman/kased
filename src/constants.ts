@@ -7,7 +7,8 @@ export enum ErrorMessage {
   INVALID_DETAILS = 'Invalid credentials',
   CREATE_CATEGORY = 'Unable to create category',
   CREATE_PRODUCT = 'Unable to create products',
-  PRODUCT_IMAGE_UPLOAD = 'Unable to upload product image'
+  PRODUCT_IMAGE_UPLOAD = 'Unable to upload product image',
+  LARGE_IMAGE = 'Image is too large to upload. It should be less than 1mb in size'
 }
 
 export enum SuccessMessage {

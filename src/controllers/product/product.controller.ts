@@ -14,26 +14,12 @@ export default class ProductController {
     this.productService = new ProductService();
   }
 
-  public create =  async (req: express.Request, res: express.Response) => {
-    try {
-      const createProductModel: ICreateProductModel = {
-        ...req.body
-      };
-
-      let product: any;
-
-      // validate request
-      // const validity = ProductValidator.create(createProductModel);
-      // if (validity.error) {
-      //   const { message } = validity.error;
-
-      //   return res.status(400).json({error: message});
-      // }
-
-      // handle form data to allow for product image upload
-      const form = new formidable.IncomingForm();
-      form.keepExtensions = true;
-      form.parse(req, async (error, fields, files) => {
+  public create = (req: express.Request, res: express.Response) => {
+    // handle form data to allow for product image upload
+    const form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+    form.parse(req, async (error, fields, files) => {
+      try {
         // check if there was an error when uploading image
         if (error) {
           const message = error.message || error;
@@ -43,19 +29,14 @@ export default class ProductController {
         }
 
         // register product to database
-        product = await this.productService.create(fields, files);
+        const product = await this.productService.create(fields, files);
 
         res.json(product);
-      });
-
-      // register product to database
-      // const product = await this.productService.create(createProductModel);
-
-
-    } catch (error) {
-      const message = error.message || error;
-      logger.error(`<<<ProductController.create>>> ${ErrorMessage.CREATE_PRODUCT}: ${message}`);
-      res.send({ error: message });
-    }
+      } catch (error) {
+        const message = error.message || error;
+        logger.error(`<<<ProductController.create>>> ${ErrorMessage.CREATE_PRODUCT}: ${message}`);
+        res.send({ error: message });
+      }
+    });
   }
 }

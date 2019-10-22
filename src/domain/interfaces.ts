@@ -26,6 +26,6 @@ export interface ICreateProductModel {
   price: number;
   category: string;
   quantity: number;
-  photo: string;
+  photo: any;
   shipping?: boolean;
 }
