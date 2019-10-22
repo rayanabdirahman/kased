@@ -5,7 +5,8 @@ export enum ErrorMessage {
   EMAIL_IS_TAKEN = 'Email is already taken',
   USER_DOES_NOT_EXIST = 'User with that email does not exist',
   INVALID_DETAILS = 'Invalid credentials',
-  CREATE_CATEGORY = 'Unable to create category'
+  CREATE_CATEGORY = 'Unable to create category',
+  CREATE_PRODUCT = 'Unable to create products'
 }
 
 export enum SuccessMessage {

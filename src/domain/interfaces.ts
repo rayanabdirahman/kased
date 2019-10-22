@@ -19,3 +19,7 @@ export interface ILoginModel {
 export interface ICreateCategoryModel {
   name: string;
 }
+
+export interface ICreateProductModel {
+  name: string;
+}
