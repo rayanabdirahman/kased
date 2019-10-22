@@ -20,6 +20,34 @@ export default class ProductController {
     form.keepExtensions = true;
     form.parse(req, async (error, fields, files) => {
       try {
+        // validate fields from client
+        const {
+          name,
+          description,
+          price,
+          category,
+          quantity,
+          photo,
+          shipping } = fields;
+
+        const createProductModel: ICreateProductModel = {
+          name,
+          description,
+          price,
+          category,
+          quantity,
+          photo,
+          shipping
+        };
+
+        // validate request
+        const validity = ProductValidator.create(createProductModel);
+        if (validity.error) {
+          const { message } = validity.error;
+
+          return res.status(400).json({error: message});
+        }
+
         // check if there was an error when uploading image
         if (error) {
           const message = error.message || error;
@@ -27,6 +55,7 @@ export default class ProductController {
 
           return res.status(400).json({error: ErrorMessage.PRODUCT_IMAGE_UPLOAD});
         }
+
 
         // register product to database
         const product = await this.productService.create(fields, files);

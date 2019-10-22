@@ -21,11 +21,11 @@ export interface ICreateCategoryModel {
 }
 
 export interface ICreateProductModel {
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  quantity: number;
+  name: string | string[];
+  description: string | string[];
+  price: string | string[];
+  category: string | string[];
+  quantity: string | string[];
   photo: any;
-  shipping?: boolean;
+  shipping?: string | string[];
 }
