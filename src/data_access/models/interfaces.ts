@@ -12,3 +12,7 @@ export interface IUser extends mongoose.Document {
   role?: number;
   history?: [];
 }
+
+export interface ICategory extends mongoose.Document {
+  name: string;
+}
