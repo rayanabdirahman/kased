@@ -24,4 +24,8 @@ export default class ProductService {
 
     return product;
   }
+
+  public async findById(id: string) {
+    return await Product.findById(id);
+  }
 }

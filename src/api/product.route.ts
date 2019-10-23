@@ -16,6 +16,10 @@ router.post('/create/:userId',
   productController.create
 );
 
-router.param('userId', userController.findById);
+// find product by id
+router.get('/:productId', productController.read);
+
+router.param('userId', userController.findById); // TODO: MOVE THIS INTO MIDDLEWARE FODLER TO MANAGE USER AUTHGUARD
+router.param('productId', productController.findById);
 
 export default router;
