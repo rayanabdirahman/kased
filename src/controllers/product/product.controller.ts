@@ -108,6 +108,63 @@ export default class ProductController {
   }
 
   /**
+   * Update product details in database using req.product
+   */
+  public update = (req: IExtendedRequest, res: express.Response) => {
+    // handle form data to allow for product image upload
+    const form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+    form.parse(req, async (error, fields, files) => {
+      try {
+        // validate fields from client
+        const {
+          name,
+          description,
+          price,
+          category,
+          quantity,
+          photo,
+          shipping } = fields;
+
+        const updateProductModel: ICreateProductModel = {
+          name,
+          description,
+          price,
+          category,
+          quantity,
+          photo,
+          shipping
+        };
+
+        // validate request
+        const validity = ProductValidator.create(updateProductModel);
+        if (validity.error) {
+          const { message } = validity.error;
+
+          return res.status(400).json({error: message});
+        }
+
+        // check if there was an error when uploading image
+        if (error) {
+          const message = error.message || error;
+          logger.error(`<<<ProductController.update>>> ${ErrorMessage.PRODUCT_IMAGE_UPLOAD}: ${message}`);
+
+          return res.status(400).json({error: ErrorMessage.PRODUCT_IMAGE_UPLOAD});
+        }
+
+        // update product in database
+        const product = await this.productService.update(req.product, fields, files);
+
+        res.json(product);
+      } catch (error) {
+        const message = error.message || error;
+        logger.error(`<<<ProductController.update>>> ${ErrorMessage.UPDATE_PRODUCT}: ${message}`);
+        res.send({ error: message });
+      }
+    });
+  }
+
+  /**
    * Find product by ID and store details in req.product
    */
   public findById = async (req: IExtendedRequest, res: express.Response, next: express.NextFunction, id: string) => {

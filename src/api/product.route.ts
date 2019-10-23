@@ -30,6 +30,17 @@ router.delete('/:productId/:userId',
   productController.remove
 );
 
+/**
+ * update product by id
+ * only authorised users can update product
+ */
+router.put('/:productId/:userId',
+  authController.authGuard,
+  authController.isAuth,
+  authController.isAdmin,
+  productController.update
+);
+
 router.param('userId', userController.findById); // TODO: MOVE THIS INTO MIDDLEWARE FODLER TO MANAGE USER AUTHGUARD
 router.param('productId', productController.findById);
 

@@ -10,7 +10,8 @@ export enum ErrorMessage {
   PRODUCT_IMAGE_UPLOAD = 'Unable to upload product image',
   LARGE_IMAGE = 'Image is too large to upload. It should be less than 1mb in size',
   FIND_PRODUCT_BY_ID = 'Unable to find product by this ID',
-  REMOVE_PRODUCT_BY_ID = 'Unable to remove product by this ID'
+  REMOVE_PRODUCT_BY_ID = 'Unable to remove product by this ID',
+  UPDATE_PRODUCT = 'Unable to update product',
 }
 
 export enum SuccessMessage {
