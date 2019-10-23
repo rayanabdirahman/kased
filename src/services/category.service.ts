@@ -11,4 +11,8 @@ export default class CategoryService {
 
     return category;
   }
+
+  public async findById(id: string) {
+    return await Category.findById(id);
+  }
 }

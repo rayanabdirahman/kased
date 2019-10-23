@@ -16,7 +16,10 @@ router.post('/create/:userId',
   categoryController.create
 );
 
-router.param('userId', userController.findById);
+// find category by id
+router.get('/:categoryId', categoryController.read);
 
+router.param('userId', userController.findById); // TODO: MOVE THIS INTO MIDDLEWARE FODLER TO MANAGE USER AUTHGUARD
+router.param('categoryId', categoryController.findById);
 
 export default router;

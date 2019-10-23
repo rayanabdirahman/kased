@@ -6,6 +6,7 @@ export enum ErrorMessage {
   USER_DOES_NOT_EXIST = 'User with that email does not exist',
   INVALID_DETAILS = 'Invalid credentials',
   CREATE_CATEGORY = 'Unable to create category',
+  FIND_CATEGORY_BY_ID = 'Unable to find category by this ID',
   CREATE_PRODUCT = 'Unable to create products',
   PRODUCT_IMAGE_UPLOAD = 'Unable to upload product image',
   LARGE_IMAGE = 'Image is too large to upload. It should be less than 1mb in size',
