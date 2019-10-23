@@ -19,6 +19,17 @@ router.post('/create/:userId',
 // find product by id
 router.get('/:productId', productController.read);
 
+/**
+ * delete product by id
+ * only authorised users can delete product
+ */
+router.delete('/:productId/:userId',
+  authController.authGuard,
+  authController.isAuth,
+  authController.isAdmin,
+  productController.remove
+);
+
 router.param('userId', userController.findById); // TODO: MOVE THIS INTO MIDDLEWARE FODLER TO MANAGE USER AUTHGUARD
 router.param('productId', productController.findById);
 

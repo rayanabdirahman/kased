@@ -5,7 +5,7 @@ import logger from '../../helpers/logger';
 import ProductService from '../../services/product.service';
 import { ICreateProductModel } from '../../domain/interfaces';
 import { ProductValidator } from './product.validation';
-import { ErrorMessage } from '../../constants';
+import { ErrorMessage, SuccessMessage } from '../../constants';
 import { IExtendedRequest } from '../../custom';
 
 export default class ProductController {
@@ -87,6 +87,27 @@ export default class ProductController {
   }
 
   /**
+   * Remove product details stored in req.product
+   */
+  public remove = (req: IExtendedRequest, res: express.Response) => {
+    if (req.product) {
+      const product = req.product;
+
+      product.remove((error: Error, deletedProduct: ICreateProductModel) => {
+        if (error) {
+          logger.error(`<<<ProductController.remove>>> ${ErrorMessage.REMOVE_PRODUCT_BY_ID}: ${error}`);
+
+          return res.status(400).json({error: ErrorMessage.REMOVE_PRODUCT_BY_ID});
+        }
+
+        const message = `${SuccessMessage.DELETED_PRODUCT}`;
+
+        return res.status(200).json({message});
+      });
+    }
+  }
+
+  /**
    * Find product by ID and store details in req.product
    */
   public findById = async (req: IExtendedRequest, res: express.Response, next: express.NextFunction, id: string) => {
@@ -95,7 +116,9 @@ export default class ProductController {
       // find product by Id
       const product = await this.productService.findById(id);
       if (!product) {
-        return res.status(400).json({error: 'cant find product by id'});
+        logger.error(`<<<ProductController.findById>>> ${ErrorMessage.FIND_PRODUCT_BY_ID}`);
+
+        return res.status(400).json({error: ErrorMessage.FIND_PRODUCT_BY_ID});
       }
 
       // add product details to request object
