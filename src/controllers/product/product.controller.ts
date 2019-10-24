@@ -47,6 +47,25 @@ export default class ProductController {
   }
 
   /**
+   * Find all product categories
+   * @return an array of categories id
+   */
+  public categories =  async (req: express.Request, res: express.Response) => {
+    try {
+
+      // return all product categories
+      const categories = await this.productService.categories();
+
+      return res.status(200).json(categories);
+
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<ProductController.categories>>> ${ErrorMessage.LIST_PRODUCT_CATEGORIES}: ${message}`);
+      res.send({ error: message });
+    }
+  }
+
+  /**
    * Find all related products by finding products based on the req product category
    * @return products in the same category
    * @query /product/related/:productId?limit=4

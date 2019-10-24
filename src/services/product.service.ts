@@ -14,6 +14,11 @@ export default class ProductService {
                         .limit(limit);
   }
 
+  // Find all product categories
+  public async categories() {
+    return await Product.distinct('category', {});
+  }
+
   // Find all related products
   public async related(product: any, limit: number) {
     return await Product.find({ _id: {$ne: product}, category: product.category})

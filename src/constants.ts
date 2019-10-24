@@ -18,6 +18,7 @@ export enum ErrorMessage {
   UPDATE_PRODUCT = 'Unable to update product',
   LIST_PRODUCT = 'Unable to find products',
   RELATED_PRODUCTS = 'Unable to find related products',
+  LIST_PRODUCT_CATEGORIES = 'Unable to find product categories',
 }
 
 export enum SuccessMessage {

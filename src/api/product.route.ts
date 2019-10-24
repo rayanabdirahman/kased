@@ -11,6 +11,9 @@ const userController = new UserController(); // TODO: MOVE RESUED USERID METHOD 
 // list all products
 router.get('/', productController.list);
 
+// list product categories
+router.get('/categories', productController.categories);
+
 // Authorised Admin user can only create products
 router.post('/create/:userId',
   authController.authGuard,
