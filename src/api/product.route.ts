@@ -22,6 +22,9 @@ router.post('/create/:userId',
 // find product by id
 router.get('/:productId', productController.read);
 
+// find related products by id
+router.get('/related/:productId', productController.related);
+
 /**
  * delete product by id
  * only authorised users can delete product

@@ -46,6 +46,32 @@ export default class ProductController {
     }
   }
 
+  /**
+   * Find all related products by finding products based on the req product category
+   * @return products in the same category
+   * @query /product/related/:productId?limit=4
+   */
+  public related =  async (req: IExtendedRequest, res: express.Response) => {
+    try {
+
+      // get limit from req.query if provided or set default to 6
+      const limit = req.query.limit ? parseInt(req.query.limit, 10) : 6;
+
+      // current product
+      const product = req.product;
+
+      // return all related products
+      const products = await this.productService.related(product, limit);
+
+      return res.status(200).json(products);
+
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<ProductController.related>>> ${ErrorMessage.RELATED_PRODUCTS}: ${message}`);
+      res.send({ error: message });
+    }
+  }
+
   public create = (req: express.Request, res: express.Response) => {
     // handle form data to allow for product image upload
     const form = new formidable.IncomingForm();

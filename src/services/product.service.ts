@@ -14,6 +14,13 @@ export default class ProductService {
                         .limit(limit);
   }
 
+  // Find all related products
+  public async related(product: any, limit: number) {
+    return await Product.find({ _id: {$ne: product}, category: product.category})
+                        .limit(limit)
+                        .populate('category', '_id name');
+  }
+
   public async create(fields: formidable.Fields, files: formidable.Files) {
     // create new product instance
     const product = new Product(fields);

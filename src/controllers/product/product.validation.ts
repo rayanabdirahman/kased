@@ -12,6 +12,7 @@ export class ProductValidator {
     price: Joi.number().min(2).max(32).required(),
     category: Joi.string().required(),
     quantity: Joi.number(),
+    sold: Joi.number(),
     photo: Joi.string(),
     shipping: Joi.boolean()
   });
