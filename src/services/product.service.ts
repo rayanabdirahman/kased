@@ -29,7 +29,6 @@ export default class ProductService {
                         .skip(skip)
                         .limit(limit);
   }
-  
 
   // Find all related products
   public async related(product: any, limit: number) {
