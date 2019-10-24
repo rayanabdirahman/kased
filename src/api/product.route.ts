@@ -31,6 +31,9 @@ router.get('/:productId', productController.read);
 // find related products by id
 router.get('/related/:productId', productController.related);
 
+// get product image middleware
+router.get('/photo/:productId', productController.photo);
+
 /**
  * delete product by id
  * only authorised users can delete product

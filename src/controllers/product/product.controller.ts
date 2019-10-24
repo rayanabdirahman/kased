@@ -317,4 +317,16 @@ export default class ProductController {
       res.status(400).send({ error: message });
     }
   }
+
+  public photo =  async (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
+    if (req.product) {
+      if (req.product.photo.data) {
+        res.set('Content-Type', req.product.photo.contentType);
+        res.send(req.product.photo.data);
+      }
+    }
+
+    next();
+  }
+
 }
