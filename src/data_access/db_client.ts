@@ -9,6 +9,7 @@ const connectToDbClient = async () => {
     await mongoose.connect(DB_HOST, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
       useFindAndModify: false
     });
     logger.info(`${SuccessMessage.DB_CONNECTION} ✅`);
