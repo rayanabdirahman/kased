@@ -4,4 +4,11 @@ export default class UserService {
   public async findById(id: string) {
     return await User.findById(id).select('-password');
   }
+
+  public async update(id: string, model: any) {
+    return await User.findOneAndUpdate(
+                      { _id: id },
+                      { $set: model },
+                      { new: true }).select('-password');
+  }
 }
