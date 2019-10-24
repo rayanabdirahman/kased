@@ -30,3 +30,10 @@ export interface ICreateProductModel {
   shipping?: string | string[];
   sold?: string | string[];
 }
+
+export interface IProductSearchArg {
+  [key: string]: {
+    [key: string]: any;
+  };
+}
+

@@ -3,7 +3,7 @@ import formidable from 'formidable';
 import * as _ from 'lodash';
 import logger from '../../helpers/logger';
 import ProductService from '../../services/product.service';
-import { ICreateProductModel } from '../../domain/interfaces';
+import { ICreateProductModel, IProductSearchArg } from '../../domain/interfaces';
 import { ProductValidator } from './product.validation';
 import { ErrorMessage, SuccessMessage } from '../../constants';
 import { IExtendedRequest } from '../../custom';
@@ -64,6 +64,57 @@ export default class ProductController {
       res.send({ error: message });
     }
   }
+
+  // Find searched for products
+  public search =  async (req: express.Request, res: express.Response) => {
+    try {
+
+      // get order from req.body if provided or set default to ascending order
+      const order = req.body.order ? req.body.order : 'asc';
+
+      // get sortBy from req.body if provided or set default to _id
+      const sortBy = req.body.sortBy ? req.body.sortBy : '_id';
+
+      // get limit from req.body if provided or set default to 6
+      const limit = req.body.limit ? parseInt(req.body.limit, 10) : 6;
+
+      /**
+       * get skip from req.body if provided
+       * used to implement "See more" feature on the frontend
+       */
+      const skip = parseInt(req.body.skip, 10);
+
+      const searchArgs: IProductSearchArg = {};
+
+      // loop through re.body.filter to populate searchArgs object
+      const filters = req.body.filters;
+      for (const key in filters) {
+        if (filters[key].length > 0) {
+            if (key === 'price') {
+                // gte -  greater than price [0-10]
+                // lte - less than
+                searchArgs[key] = {
+                    $gte: filters[key][0],
+                    $lte: filters[key][1]
+                };
+            } else {
+                searchArgs[key] = filters[key];
+            }
+        }
+    }
+
+      // return all products that meet search query
+      const products = await this.productService.search(searchArgs, order, sortBy, skip, limit);
+
+      return res.status(200).json({ size: products.length, products });
+
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<ProductController.search>>> ${ErrorMessage.SEARCH_PRODUCT}: ${message}`);
+      res.send({ error: message });
+    }
+  }
+
 
   /**
    * Find all related products by finding products based on the req product category

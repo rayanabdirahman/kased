@@ -3,6 +3,7 @@ import fs from 'fs';
 import * as _ from 'lodash';
 import Product from '../data_access/models/product.model';
 import { ErrorMessage } from './../constants';
+import { IProductSearchArg } from '../domain/interfaces';
 
 export default class ProductService {
   // Find all products
@@ -18,6 +19,17 @@ export default class ProductService {
   public async categories() {
     return await Product.distinct('category', {});
   }
+
+  // Find searched for products
+  public async search(searchArgs: IProductSearchArg, order: string, sortBy: string, skip: number, limit: number) {
+    return await Product.find(searchArgs)
+                        .select('-photo')
+                        .populate('category')
+                        .sort([[sortBy, order]])
+                        .skip(skip)
+                        .limit(limit);
+  }
+  
 
   // Find all related products
   public async related(product: any, limit: number) {

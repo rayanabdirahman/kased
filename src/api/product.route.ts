@@ -14,6 +14,9 @@ router.get('/', productController.list);
 // list product categories
 router.get('/categories', productController.categories);
 
+// list products by search query
+router.post('/search', productController.search);
+
 // Authorised Admin user can only create products
 router.post('/create/:userId',
   authController.authGuard,
