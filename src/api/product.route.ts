@@ -8,7 +8,10 @@ const productController = new ProductController();
 const authController = new AuthController(); // TODO: MOVE RESUED AUTH METHODS INTO MIDDLEWARE FOLDER
 const userController = new UserController(); // TODO: MOVE RESUED USERID METHOD INTO MIDDLEWARE FOLDER
 
-// Authorised Admin user can only create categories
+// list all products
+router.get('/', productController.list);
+
+// Authorised Admin user can only create products
 router.post('/create/:userId',
   authController.authGuard,
   authController.isAuth,

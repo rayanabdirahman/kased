@@ -5,6 +5,15 @@ import Product from '../data_access/models/product.model';
 import { ErrorMessage } from './../constants';
 
 export default class ProductService {
+  // Find all products
+  public async list(order: string, sortBy: string, limit: number) {
+    return await Product.find()
+                        .select('-photo')
+                        .populate('category')
+                        .sort([[sortBy, order]])
+                        .limit(limit);
+  }
+
   public async create(fields: formidable.Fields, files: formidable.Files) {
     // create new product instance
     const product = new Product(fields);

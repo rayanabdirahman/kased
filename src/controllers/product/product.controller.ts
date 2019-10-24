@@ -15,6 +15,37 @@ export default class ProductController {
     this.productService = new ProductService();
   }
 
+
+  /**
+   * Find all products matching query params
+   * @return products by the amount sold (Most popular): /product?sortBy=sold&order=desc&limit=4
+   * @return products by the arrival date (New arrivals): /product?sortBy=createdAt&order=desc&limit=4
+   * @return products with default querys if query is not provided
+   */
+  public list =  async (req: express.Request, res: express.Response) => {
+    try {
+
+      // get order from req.query if provided or set default to ascending order
+      const order = req.query.order ? req.query.order : 'asc';
+
+      // get sortBy from req.query if provided or set default to _id
+      const sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+
+      // get limit from req.query if provided or set default to 6
+      const limit = req.query.limit ? parseInt(req.query.limit, 10) : 6;
+
+      // return all products that meet query
+      const products = await this.productService.list(order, sortBy, limit);
+
+      return res.status(200).json(products);
+
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<ProductController.list>>> ${ErrorMessage.LIST_PRODUCT}: ${message}`);
+      res.send({ error: message });
+    }
+  }
+
   public create = (req: express.Request, res: express.Response) => {
     // handle form data to allow for product image upload
     const form = new formidable.IncomingForm();
@@ -29,7 +60,8 @@ export default class ProductController {
           category,
           quantity,
           photo,
-          shipping } = fields;
+          shipping,
+          sold } = fields;
 
         const createProductModel: ICreateProductModel = {
           name,
@@ -38,7 +70,8 @@ export default class ProductController {
           category,
           quantity,
           photo,
-          shipping
+          shipping,
+          sold
         };
 
         // validate request

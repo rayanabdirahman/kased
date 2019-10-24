@@ -28,4 +28,5 @@ export interface ICreateProductModel {
   quantity: string | string[];
   photo: any;
   shipping?: string | string[];
+  sold?: string | string[];
 }

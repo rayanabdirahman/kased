@@ -23,6 +23,7 @@ export interface IProduct extends mongoose.Document {
   price: number;
   category: ICategory;
   quantity: number;
+  sold: number;
   photo: any; // TODO: ADD STRONG TYPING FOR BUFFER
   shipping?: boolean;
 }

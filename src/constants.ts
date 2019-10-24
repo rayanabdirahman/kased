@@ -16,6 +16,7 @@ export enum ErrorMessage {
   FIND_PRODUCT_BY_ID = 'Unable to find product by this ID',
   REMOVE_PRODUCT_BY_ID = 'Unable to remove product by this ID',
   UPDATE_PRODUCT = 'Unable to update product',
+  LIST_PRODUCT = 'Unable to find products',
 }
 
 export enum SuccessMessage {
