@@ -4,39 +4,37 @@ import Link from 'next/link'
 const Navbar: React.FunctionComponent = () => (
   <header>
     <nav className="navbar navbar-expand-lg navbar-light">
-      <div className="container">
+      {/* <div className="container"> */}
         {/* Brand logo */}
         <Link href="/">
           <a className="navbar-brand">Navbar</a>
         </Link>
         {/* Brand logo */}
 
-        {/* Search bar */}
-        <div className="input-group-overlay">
-          <input type="text" placeholder="Search for products" className="form-control appended-form-control"/>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className="nav-item active">
+              <Link href="/">
+                <a className="nav-link">Home <span className="sr-only">(current)</span></a>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link href="/login">
+                <a className="nav-link">Login</a>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link href="/signup">
+                <a className="nav-link">Sign Up</a>
+              </Link>
+            </li>
+          </ul>
         </div>
-        {/* Search bar */}
-      </div>
-      <img src="https://getbootstrap.com/docs/4.3/assets/brand/bootstrap-solid.svg" width="30" height="30" alt=""/>
-      <Link href="/">
-        <a>Home</a>
-      </Link>{' '}
-      |{' '}
-      <Link href="/about">
-        <a>About</a>
-      </Link>{' '}
-      |{' '}
-      <Link href="/users">
-        <a>Users List</a>
-      </Link>{' '}
-      |{' '}
-      <Link href="/login">
-        <a>Login</a>
-      </Link>{' '}
-      |{' '}
-      <Link href="/signup">
-        <a>Signup</a>
-      </Link>
+      {/* </div> */}
     </nav>
   </header>
 )
