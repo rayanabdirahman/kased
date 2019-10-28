@@ -5,7 +5,7 @@ import Hero from "./Hero";
 
 type Props = {
   title?: string,
-  heroTile?: string,
+  heroTitle?: string,
   description?: string,
   heroButtonText?: string,
   showHero?: boolean,
@@ -15,7 +15,7 @@ const Layout: React.FunctionComponent<Props> = ({
   children,
   title = 'Kased | Warehouse prices without the membership fees!',
   showHero = true,
-  heroTile = 'Hero title',
+  heroTitle = 'Hero title',
   description = 'This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.',
   heroButtonText = 'Find out more'
 }) => (
@@ -29,11 +29,13 @@ const Layout: React.FunctionComponent<Props> = ({
     <Navbar />
 
     {
-      showHero ? <Hero title={heroTile} description={description} buttonText={heroButtonText}/> : null 
+      showHero ? <Hero title={heroTitle} description={description} buttonText={heroButtonText}/> : null 
     }
 
+    <div className="container">
+      {children}
+    </div>
 
-    {children}
     <footer>
       <hr />
       <span>I'm here to stay (Footer)</span>
