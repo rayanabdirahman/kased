@@ -8,3 +8,25 @@ export type User = {
   id: number
   name: string
 }
+
+export enum AlertEnum {
+  SUCCESS = 'success',
+  ERROR = 'danger',
+  INFO = 'info'
+}
+
+export interface ISignUpModel {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+}
+
+export interface ISignUpState {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  error: string | boolean
+  success: boolean
+}
