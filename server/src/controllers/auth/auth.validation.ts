@@ -13,7 +13,7 @@ export class AuthValidator {
   private static signUpSchema: Joi.ObjectSchema = Joi.object({
     firstName: Joi.string().min(2).max(32).required(),
     lastName: Joi.string().min(2).max(32).required(),
-    email: Joi.string().required(),
+    email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
     organisationName: Joi.string(),
     businessType: Joi.string(),
