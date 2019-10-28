@@ -31,6 +31,8 @@ const SignupPage: React.FunctionComponent = () => {
 
   const [state, setstate] = React.useState(initialState)
 
+  const { firstName, lastName, password, email, error, success } = state;
+
   /**
    * Listens for changes on input fields
    * @param { string } name - stores form name
@@ -45,15 +47,30 @@ const SignupPage: React.FunctionComponent = () => {
    * Passes required signup fields to signUp function
    * @param event - listens for onClcik event
    */
-  const handleSubmit = (event: any) => {
-    // prevent default event behaviour
-    event.preventDefault();
+  const handleSubmit = async(event: any) => {
+    try {
+      // prevent default event behaviour
+      event.preventDefault();
 
-    // destructure required values from state
-    const { firstName, lastName, email, password } = state;
+      setstate({...state, error: false})
 
-    // pass state values to backend
-    signUp({firstName, lastName, email, password});
+      // destructure required values from state
+      const { firstName, lastName, email, password } = state;
+
+      // pass state values to backend
+      const response = await signUp({firstName, lastName, email, password});
+
+      // check for errors
+      if (response.error) {
+        setstate({...state, error: response.error, success: false});
+        throw new Error(response.statusText);
+      }
+
+      setstate({...state, firstName: '', lastName:'', email: '', password: '', success: true})
+
+    } catch(error) {
+      console.error(`SignUpPage:handleSubmit=>>>>>> Error when submiting user info: ${error}`)
+    }
   }
 
   /**
@@ -79,38 +96,67 @@ const SignupPage: React.FunctionComponent = () => {
         body: JSON.stringify(signUpModel)
       })
 
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
       return await response.json();
 
     } catch(error) {
+      console.log(error)
       console.error(`SignUpPage:signUp=>>>>>> Error when signing up user: ${error}`)
     }
   }
+
+  const showError = () => {
+    return (
+      <div className="alert alert-danger" role="alert" style={{display: error ? 'block': 'none'}}>
+        { error }
+      </div>
+    )
+  }
+
+  const showSuccess = () => {
+    return (
+      <div className="alert alert-success" role="alert" style={{display: success ? 'block': 'none'}}>
+        Successfully signed user up
+      </div>
+    )
+  }
+
+  // const showAlert = (status: string, message: string) => {
+  //   if (status === 'error') {
+  //     return (
+  //       <div className="alert alert-danger" role="alert" style={{display: error ? '': 'none'}}>
+  //         { message }
+  //       </div>
+  //     )
+  //   }
+
+  //   return (
+  //     <div className="alert alert-success" role="alert" style={{display: success ? '': 'none'}}>
+  //       { message }
+  //     </div>
+  //   )
+  // }
 
   // form mark up
   const form = () => (
     <form>
       <div className="form-group">
         <label className="text-muted" htmlFor="">First Name</label>
-        <input onChange={handleChange('firstName')} className="form-control" type="text"/>
+        <input onChange={handleChange('firstName')} value={firstName} className="form-control" type="text"/>
       </div>
 
       <div className="form-group">
         <label className="text-muted" htmlFor="">Last Name</label>
-        <input onChange={handleChange('lastName')} className="form-control" type="text"/>
+        <input onChange={handleChange('lastName')} value={lastName} className="form-control" type="text"/>
       </div>
   
       <div className="form-group">
         <label className="text-muted" htmlFor="">Email</label>
-        <input onChange={handleChange('email')} className="form-control" type="email"/>
+        <input onChange={handleChange('email')} value={email} className="form-control" type="email"/>
       </div>
 
       <div className="form-group">
         <label className="text-muted" htmlFor="">Password</label>
-        <input onChange={handleChange('password')}className="form-control" type="password"/>
+        <input onChange={handleChange('password')} value={password} className="form-control" type="password"/>
       </div>
 
       <button onClick={handleSubmit} className="btn btn-primary" type="submit">Submit</button>
@@ -120,8 +166,9 @@ const SignupPage: React.FunctionComponent = () => {
   return (    
   <Layout title="Signup | Next.js + TypeScript Example" heroTitle="Signup" description="Signup to get the best deals" >
     <h1>Signup page</h1>
+    {showSuccess()}
+    {showError()}
     {form()}
-    {JSON.stringify(state)}
   </Layout>
   )
 }
