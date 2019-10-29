@@ -15,7 +15,7 @@ const SignupPage: React.FunctionComponent = () => {
     success: false
   })
 
-  // destructure required values from state
+  // destruct required values from state
   const { firstName, lastName, email, password, error, success } = state;
 
   /**
