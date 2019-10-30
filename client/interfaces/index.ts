@@ -30,3 +30,8 @@ export interface ISignUpState {
   error: string | boolean
   success: boolean
 }
+
+export interface ILoginModel {
+  email: string
+  password: string
+}
