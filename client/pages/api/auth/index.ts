@@ -4,6 +4,7 @@ import { ISignUpModel, ILoginModel } from "../../../interfaces";
 const API_SIGNUP = `${API_BASE_URL}/auth/signup`
 const API_LOGIN = `${API_BASE_URL}/auth/login`
 const API_LOGOUT = `${API_BASE_URL}/auth/logout`
+const COOKIE_NAME = 'jwtToken';
 
 /**
  * Register user by sending state values to backend api
@@ -100,4 +101,22 @@ export const authenticate = (data: object, next: Function) => {
     localStorage.setItem('jwtToken', JSON.stringify(data))
     next()
   }
+}
+
+/**
+ * Return whether user is authenticated or not
+ */
+export const isAuthenticated = () => {
+  // thorw error if local storage is not available on browse
+  if (typeof window === 'undefined') {
+    throw Error('isAuthenticated: Local storage is not availbale on this browser');
+  }
+
+  // check if user details is stored in localstorage
+  if (localStorage.getItem(COOKIE_NAME)) {
+    return JSON.parse(`${localStorage.getItem(COOKIE_NAME)}`)
+  }
+
+  // return false if user details are not available
+  return false;    
 }
