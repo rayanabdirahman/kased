@@ -35,3 +35,11 @@ export interface ILoginModel {
   email: string
   password: string
 }
+
+export interface ILoginState {
+  email: string
+  password: string
+  error: string | boolean
+  loading: boolean
+  redirectToReferrer: boolean,
+}
