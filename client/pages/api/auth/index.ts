@@ -58,3 +58,16 @@ export const login = async(user: ILoginModel) => {
     console.error(`LoginPage:login=>>>>>> Error when signing up user: ${error}`)
   }
 }
+
+/**
+ * Store JWT Token in localstorage
+ * @param data 
+ * @param next - callback function to be executed when user credentials have been stored
+ */
+export const authenticate = (data: object, next: Function ) => {
+  // check if local storage is available on browser
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('jwtToken', JSON.stringify(data))
+    next()
+  }
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import Router from 'next/router';
 import Layout from '../components/Layout';
 import { ILoginState, ILoginModel, AlertEnum } from '../interfaces';
-import { login } from './api/auth';
+import { login, authenticate  } from './api/auth';
 import Alert from '../components/Alert';
 
 const LoginPage: React.FunctionComponent = () => {
@@ -55,7 +55,10 @@ const LoginPage: React.FunctionComponent = () => {
         throw new Error(response.statusText);
       }
 
-      setstate({...state, redirectToReferrer: true})
+      // store user JWT credentials in localstorage
+      authenticate(response, () => {
+        setstate({...state, redirectToReferrer: true})
+      })
 
     } catch(error) {
       console.error(`LoginPage:handleSubmit=>>>>>> Error when submiting user info: ${error}`)
