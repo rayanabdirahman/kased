@@ -3,7 +3,7 @@ import { ISignUpModel, ILoginModel } from "../../../interfaces";
 
 const API_SIGNUP = `${API_BASE_URL}/auth/signup`
 const API_LOGIN = `${API_BASE_URL}/auth/login`
-// const API_LOGOUT = `${API_BASE_URL}/auth/logout`
+const API_LOGOUT = `${API_BASE_URL}/auth/logout`
 
 /**
  * Register user by sending state values to backend api
@@ -60,11 +60,41 @@ export const login = async(user: ILoginModel) => {
 }
 
 /**
+ * Log user out by removing user details from local storage
+ * @param { Function } next - callback function to be executed when user credentials have been stored
+ */
+export const logout = async(next: Function) => {
+  try {
+    // thorw error if local storage is not available on browse
+    if (typeof window === 'undefined') {
+      throw Error('Local storage is not availbale on this browser');
+    }
+    
+    // remove user details from local storage
+    localStorage.removeItem('jwtToken')
+
+    // execute callback function
+    next()
+
+    // make API request to log user out
+    let response = await fetch(`${API_LOGOUT}`, {
+      method: 'GET',
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`LoginPage:login=>>>>>> Error when signing up user: ${error}`)
+  }
+}
+
+/**
  * Store JWT Token in localstorage
  * @param { object } data - stores response data from api calls
  * @param { Function } next - callback function to be executed when user credentials have been stored
  */
-export const authenticate = (data: object, next: Function ) => {
+export const authenticate = (data: object, next: Function) => {
   // check if local storage is available on browser
   if (typeof window !== 'undefined') {
     localStorage.setItem('jwtToken', JSON.stringify(data))

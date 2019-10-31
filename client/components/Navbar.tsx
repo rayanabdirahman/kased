@@ -1,5 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
+import { logout } from '../pages/api/auth'
+import Router from 'next/router'
 
 const Navbar: React.FunctionComponent = () => (
   <header>
@@ -31,6 +33,10 @@ const Navbar: React.FunctionComponent = () => (
               <Link href="/signup">
                 <a className="nav-link">Sign Up</a>
               </Link>
+            </li>
+
+            <li className="nav-item">
+              <a className="nav-link" style={{ cursor: "pointer" }} onClick={() => logout(() => Router.replace('/'))}>Logout</a>
             </li>
           </ul>
         </div>
