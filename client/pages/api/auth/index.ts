@@ -72,7 +72,7 @@ export const logout = async(next: Function) => {
     }
     
     // remove user details from local storage
-    localStorage.removeItem('jwtToken')
+    localStorage.removeItem(COOKIE_NAME)
 
     // execute callback function
     next()
@@ -98,7 +98,7 @@ export const logout = async(next: Function) => {
 export const authenticate = (data: object, next: Function) => {
   // check if local storage is available on browser
   if (typeof window !== 'undefined') {
-    localStorage.setItem('jwtToken', JSON.stringify(data))
+    localStorage.setItem(COOKIE_NAME, JSON.stringify(data))
     next()
   }
 }
