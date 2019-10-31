@@ -61,8 +61,8 @@ export const login = async(user: ILoginModel) => {
 
 /**
  * Store JWT Token in localstorage
- * @param data 
- * @param next - callback function to be executed when user credentials have been stored
+ * @param { object } data - stores response data from api calls
+ * @param { Function } next - callback function to be executed when user credentials have been stored
  */
 export const authenticate = (data: object, next: Function ) => {
   // check if local storage is available on browser
