@@ -7,9 +7,7 @@ const API_LOGIN = `${API_BASE_URL}/auth/login`
 
 /**
  * Register user by sending state values to backend api
- * @param name - stores state value for name
- * @param email - stores state value for email
- * @param password stores state value for password
+ * @param { ISignUpModel } user - stores required user credentials for signup
  */
 export const signUp = async(user: ISignUpModel) => {
   try {
@@ -35,10 +33,8 @@ export const signUp = async(user: ISignUpModel) => {
 }
 
 /**
- * Register user by sending state values to backend api
- * @param name - stores state value for name
- * @param email - stores state value for email
- * @param password stores state value for password
+ * Log user in by sending state values to backend api
+ * @param { ILoginModel } user - stores required user credentials for login
  */
 export const login = async(user: ILoginModel) => {
   try {
