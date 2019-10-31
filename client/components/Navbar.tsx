@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { logout } from '../pages/api/auth'
+import { logout, isAuthenticated } from '../pages/api/auth'
 import Router from 'next/router'
 
 const Navbar: React.FunctionComponent = () => (
@@ -24,20 +24,29 @@ const Navbar: React.FunctionComponent = () => (
                 <a className="nav-link">Home <span className="sr-only">(current)</span></a>
               </Link>
             </li>
-            <li className="nav-item">
-              <Link href="/login">
-                <a className="nav-link">Login</a>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link href="/signup">
-                <a className="nav-link">Sign Up</a>
-              </Link>
-            </li>
+            {/* Conditionally show nav links depending on user authentication */}
+            { 
+              !isAuthenticated() ?
+              <React.Fragment>
+                <li className="nav-item">
+                  <Link href="/login">
+                    <a className="nav-link">Login</a>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link href="/signup">
+                    <a className="nav-link">Sign Up</a>
+                  </Link>
+                </li>
+              </React.Fragment> :
 
-            <li className="nav-item">
-              <a className="nav-link" style={{ cursor: "pointer" }} onClick={() => logout(() => Router.replace('/'))}>Logout</a>
-            </li>
+              <React.Fragment>
+                <li className="nav-item">
+                  <a className="nav-link" style={{ cursor: "pointer" }} onClick={() => logout(() => Router.replace('/'))}>Logout</a>
+                </li>
+              </React.Fragment>
+            }
+            {/* Conditionally show nav links depending on user authentication */}
           </ul>
         </div>
       {/* </div> */}
