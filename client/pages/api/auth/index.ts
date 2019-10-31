@@ -107,14 +107,11 @@ export const authenticate = (data: object, next: Function) => {
  * Return whether user is authenticated or not
  */
 export const isAuthenticated = () => {
-  // thorw error if local storage is not available on browse
-  if (typeof window === 'undefined') {
-    throw Error('isAuthenticated: Local storage is not availbale on this browser');
-  }
-
-  // check if user details is stored in localstorage
-  if (localStorage.getItem(COOKIE_NAME)) {
-    return JSON.parse(`${localStorage.getItem(COOKIE_NAME)}`)
+  if (typeof window !== 'undefined') {
+    // check if user details is stored in localstorage
+    if (localStorage.getItem(COOKIE_NAME)) {
+      return JSON.parse(`${localStorage.getItem(COOKIE_NAME)}`)
+    }
   }
 
   // return false if user details are not available
