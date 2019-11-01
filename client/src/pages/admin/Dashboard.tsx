@@ -30,7 +30,7 @@ const AdminDashboardPage: React.FunctionComponent = () => {
   )
 
   return (
-    <Layout title="User Dashboard" description={`Welcome back ${name}`} >
+    <Layout title="Admin Dashboard" description={`Welcome back ${name}`} >
       <div className="row">
         <div className="col-3">
           {adminLinks()}
@@ -39,8 +39,6 @@ const AdminDashboardPage: React.FunctionComponent = () => {
           {adminInfo()}
         </div>
       </div>
-
-      
     </Layout>
   )
 }

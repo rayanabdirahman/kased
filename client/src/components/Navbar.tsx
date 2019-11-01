@@ -31,11 +31,26 @@ const Navbar: React.FunctionComponent<Props> = ({ history }) => (
                 Home <span className="sr-only">(current)</span>
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/user/dashboard"  style={isActive(history, '/user/dashboard')}>
-                Dashboard
-              </Link>
-            </li>
+            {/* Conditionally show admin dashboard if user is admin */}
+            {
+              (isAuthenticated() && isAuthenticated().user.role === 1) ?
+              <React.Fragment>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin/dashboard"  style={isActive(history, '/admin/dashboard')}>
+                    Dashboard
+                  </Link>
+                </li>
+              </React.Fragment> :
+
+              <React.Fragment>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/user/dashboard"  style={isActive(history, '/user/dashboard')}>
+                    Dashboard
+                  </Link>
+                </li>
+              </React.Fragment>
+            }
+            {/* Conditionally show admin dashboard if user is admin */}
             {/* Conditionally show nav links depending on user authentication */}
             {
               !isAuthenticated() ?

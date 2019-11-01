@@ -76,7 +76,7 @@ const LoginPage: React.FunctionComponent = () => {
         return <Redirect to='/admin/dashboard' />
       }
       
-      return  <Redirect to='/' />
+      return  <Redirect to='/user/dashboard' />
     }
   }
 
