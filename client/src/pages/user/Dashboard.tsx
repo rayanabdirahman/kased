@@ -13,7 +13,7 @@ const UserDashboardPage: React.FunctionComponent = () => {
       <h3 className="card-header">User Links</h3>
       <ul className="list-group">
         <li className="list-group-item"> <Link to="/cart">My Cart</Link></li>
-        <li className="list-group-item"><Link to="profile/update">Update profile</Link></li>
+        <li className="list-group-item"><Link to="/profile/update">Update profile</Link></li>
       </ul>
     </div>
   )

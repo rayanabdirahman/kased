@@ -78,6 +78,10 @@ const LoginPage: React.FunctionComponent = () => {
       
       return  <Redirect to='/user/dashboard' />
     }
+
+    if (isAuthenticated()) {
+      return  <Redirect to='/' />
+    }
   }
 
   // form mark up
