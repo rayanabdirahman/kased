@@ -15,7 +15,7 @@ const Layout: React.FunctionComponent<Props> = ({children, showHero=true, title,
       showHero ? <Hero title={title} description={description}/> : null
     }
 
-    <div className="container">
+    <div className="container-fluid">
       { children }
     </div>
 
