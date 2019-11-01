@@ -24,6 +24,11 @@ const Navbar: React.FunctionComponent = () => (
                 <a className="nav-link">Home <span className="sr-only">(current)</span></a>
               </Link>
             </li>
+            <li className="nav-item">
+              <Link href="/user-dashboard">
+                <a className="nav-link">Dashboard</a>
+              </Link>
+            </li>
             {/* Conditionally show nav links depending on user authentication */}
             { 
               !isAuthenticated() ?
