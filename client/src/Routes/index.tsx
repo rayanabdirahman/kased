@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import LoginPage from './pages/auth/Login';
-import SignupPage from './pages/auth/Signup';
-import HomePage from './pages/core/Home';
-import PrivateRoute from './PrivateRoute';
-import UserDashboardPage from './pages/user/Dashboard';
-import AdminDashboardPage from './pages/admin/Dashboard';
+import LoginPage from '../pages/auth/Login';
+import SignupPage from '../pages/auth/Signup';
+import HomePage from '../pages/core/Home';
+import PrivateRoute from './private.route';
+import UserDashboardPage from '../pages/user/Dashboard';
+import AdminDashboardPage from '../pages/admin/Dashboard';
 
 const Routes = () => {
   return (

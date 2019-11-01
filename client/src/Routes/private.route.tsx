@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect, Route } from 'react-router-dom';
-import { isAuthenticated } from './api/auth';
+import { isAuthenticated } from '../api/auth';
 
 interface IProps {
   component?: any,
