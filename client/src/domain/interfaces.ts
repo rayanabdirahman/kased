@@ -26,3 +26,9 @@ export interface ISignUpState {
   error: string | boolean
   success: boolean
 }
+
+export interface ICreateCategoryState {
+  name: string
+  error: string | boolean
+  success: boolean
+}
