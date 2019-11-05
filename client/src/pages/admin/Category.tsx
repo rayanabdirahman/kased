@@ -1,33 +1,26 @@
 import React from 'react'
-// import { ICreateCategoryState } from '../../domain/interfaces'
-// import { isAuthenticated } from '../../api/auth'
+import { isAuthenticated } from '../../api/auth'
 import Layout from '../../components/Layout'
-// import Alert from "../../components/Alert"
-// import { AlertEnum } from '../../domain/enums'
+import { createCategory } from '../../api/category'
+import Alert from "../../components/Alert"
+import { AlertEnum } from '../../domain/enums'
 
 const CategoryPage: React.FunctionComponent = () => {
   // sets initial state for component
-  // const [state, setstate] = React.useState<ICreateCategoryState>({
-  //   name: '',
-  //   error: '',
-  //   success: false
-  // })
   const [name, setName] = React.useState('')
   const [error, setError] = React.useState('')
   const [success, setSuccess] = React.useState(false)
 
   // destructure user and token information from isAuthenticated response
-  // const { user, token } = isAuthenticated()
+  const { user, token } = isAuthenticated()
 
   /**
    * Listens for changes on input fields
    * @param event - listens for onChange event
    */
   const handleChange = () => (event: any) => {
-    // setstate({...state, error: false, [name]: event.target.value })
     // Remove any errors on form fields when user starts typing
     setError('')
-    console.log(error);
 
     // set name state to input value
     setName(event.target.value)
@@ -44,17 +37,26 @@ const CategoryPage: React.FunctionComponent = () => {
 
     // Reset error state on form when user submits
     setError('')
-
     setSuccess(false)
-    console.log(success);
+
+    // pass user details and category state values to backend api
+    const response = await createCategory(user._id, token, { name });
+
+    // check for errors
+    if (response.error) {
+      return setError(response.error);
+    }
+
+    // if user is able to create category set Error empty and success true
+    setError('')
+    setSuccess(true)
   }
 
-  // form mark up
   const form = () => (
     <form>
       <div className="form-group">
         <label className="text-muted" htmlFor="">Name</label>
-        <input onChange={handleChange} value={name} className="form-control" type="text" />
+        <input onChange={handleChange()} value={name} className="form-control" type="text" required autoFocus/>
       </div>
 
       <button onClick={handleSubmit} className="btn btn-primary" type="submit">Create Category</button>
@@ -62,9 +64,15 @@ const CategoryPage: React.FunctionComponent = () => {
   )
 
   return (
-    <Layout title="Create Category Page" description={`Welcome back ${name}, ready to add a new category`} >
+    <Layout title="Create Category Page" description={`Welcome back ${user.firstName}, ready to add a new category`} >
     <div className="row">
       <div className="col-md-8 offset-md-2">
+
+      {
+        success ? <Alert status={AlertEnum.SUCCESS} message={`Category ${name} was successfully created!`} displayWhen={success}/>
+        : <Alert status={AlertEnum.ERROR} message={`Unable to create category ${name}. Category name should be unique`} displayWhen={error}/>  
+      }
+
         {form()}
       </div>
     </div>

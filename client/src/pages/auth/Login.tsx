@@ -56,8 +56,7 @@ const LoginPage: React.FunctionComponent = () => {
 
       // check for errors
       if (response.error) {
-        setstate({...state, error: response.error, loading: false});
-        throw new Error(response.statusText);
+        return setstate({...state, error: response.error, loading: false});
       }
 
       // store user JWT credentials in localstorage

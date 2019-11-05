@@ -32,3 +32,7 @@ export interface ICreateCategoryState {
   error: string | boolean
   success: boolean
 }
+
+export interface ICreateCategoryModel {
+  name: string;
+}
