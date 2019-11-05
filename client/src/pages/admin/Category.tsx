@@ -4,6 +4,7 @@ import Layout from '../../components/Layout'
 import { createCategory } from '../../api/category'
 import Alert from "../../components/Alert"
 import { AlertEnum } from '../../domain/enums'
+import { Link } from 'react-router-dom'
 
 const CategoryPage: React.FunctionComponent = () => {
   // sets initial state for component
@@ -68,12 +69,16 @@ const CategoryPage: React.FunctionComponent = () => {
     <div className="row">
       <div className="col-md-8 offset-md-2">
 
-      {
-        success ? <Alert status={AlertEnum.SUCCESS} message={`Category ${name} was successfully created!`} displayWhen={success}/>
-        : <Alert status={AlertEnum.ERROR} message={`Unable to create category ${name}. Category name should be unique`} displayWhen={error}/>  
-      }
+        {
+          success ? <Alert status={AlertEnum.SUCCESS} message={`Category ${name} was successfully created!`} displayWhen={success}/>
+          : <Alert status={AlertEnum.ERROR} message={`Unable to create category ${name}. Category name should be unique`} displayWhen={error}/>  
+        }
 
         {form()}
+
+        <div className="mt-5">
+          <Link to="/admin/dashboard" className="text-warning">Back to dashboad</Link>
+        </div>
       </div>
     </div>
     </Layout>
