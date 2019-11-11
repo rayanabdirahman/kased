@@ -71,7 +71,20 @@ const ProductPage: React.FunctionComponent = () => {
   const handleSubmit = async(event: any) => {
     try {
       // prevent default event behaviour
-      event.preventDefault();
+      event.preventDefault()
+
+      setstate({...state, error: '', loading: true})
+
+      // pass state values to backend api
+      const response = await  createProduct(user._id, token, formData)
+
+      // check for errors
+      if (response.error) {
+        setstate({...state, error: response.error, success: false});
+        throw new Error(response.statusText);
+      }
+
+      setstate({...state, photo: '', name: '', description:'', email: '', price: '', quantity: '', loading: false, createdProduct: response.name })
 
     } catch(error) {
       console.error(`ProductPage:handleSubmit=>>>>>> Error when submiting product info: ${error}`)
