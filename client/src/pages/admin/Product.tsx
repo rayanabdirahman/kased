@@ -5,6 +5,7 @@ import { createProduct } from '../../api/product'
 import Alert from "../../components/Alert"
 import { AlertEnum } from '../../domain/enums'
 import { Link } from 'react-router-dom'
+import { getCategories } from '../../api/category'
 
 const ProductPage: React.FunctionComponent = () => {
   // sets initial state for component
@@ -13,6 +14,7 @@ const ProductPage: React.FunctionComponent = () => {
     description: '',
     price: '',
     category: '',
+    categories: [],
     shipping: '',
     quantity: '',
     photo: ' ',
@@ -30,6 +32,7 @@ const ProductPage: React.FunctionComponent = () => {
     description,
     price,
     category,
+    categories,
     shipping,
     quantity,
     error,
@@ -42,10 +45,30 @@ const ProductPage: React.FunctionComponent = () => {
   // destructure user and token information from isAuthenticated response
   const { user, token } = isAuthenticated()
 
+  // get a list of all categories and set formData
+  const onInit = async() => {
+    try {
+      const response = await getCategories()
+
+      // check for errors
+      if (response.error) {
+        setstate({...state, error: response.error, success: false});
+        throw new Error(response.statusText);
+      }
+
+      setstate({...state, categories: response, formData: new FormData()})
+
+    } catch (error) {
+
+    }
+    
+  }
+
   // lifecycle method to run everytime the component mounts
   React.useEffect(() => {
-    setstate({...state, formData: new FormData()}) 
-  }, [])
+    // run onInit function to get list of categories and to set formData
+    onInit()
+  },[])
 
   /**
    * Listens for changes on input fields
@@ -120,9 +143,13 @@ const ProductPage: React.FunctionComponent = () => {
         <label className="text-muted" htmlFor="">category</label>
         <select onChange={handleChange('category')} className="form-control">
           <option value="">Select category</option>
-          <option value="5dc1c4adfdb68820c8849ce1">node</option>
-          <option value="5dc1c6b8fdb68820c8849ce8">python</option>
-          <option value="5dc4116a732e3812038f79de">bear</option>
+
+          {
+            // check if categories array is filled
+            categories && categories.map((category: any, index: number) => (
+              <option key={`category--${index}`} value={category._id}>{category.name}</option>
+            ))
+          }
         </select>
       </div> 
 
@@ -130,8 +157,8 @@ const ProductPage: React.FunctionComponent = () => {
         <label className="text-muted" htmlFor="">shipping</label>
         <select onChange={handleChange('shipping')} className="form-control">
           <option value="">Select shipping</option>
-          <option value="0">no</option>
-          <option value="1">yes</option>
+          <option value="false">no</option>
+          <option value="true">yes</option>
         </select>
       </div> 
 
@@ -141,28 +168,6 @@ const ProductPage: React.FunctionComponent = () => {
       </div> 
 
       <button className="btn btn-primary" type="submit">Create product</button>
-
-      {/* <div className="form-group">
-        <label className="text-muted" htmlFor="">First Name</label>
-        <input onChange={handleChange('firstName')} value={firstName} className="form-control" type="text"/>
-      </div>
-
-      <div className="form-group">
-        <label className="text-muted" htmlFor="">Last Name</label>
-        <input onChange={handleChange('lastName')} value={lastName} className="form-control" type="text"/>
-      </div>
-  
-      <div className="form-group">
-        <label className="text-muted" htmlFor="">Email</label>
-        <input onChange={handleChange('email')} value={email} className="form-control" type="email"/>
-      </div>
-
-      <div className="form-group">
-        <label className="text-muted" htmlFor="">Password</label>
-        <input onChange={handleChange('password')} value={password} className="form-control" type="password"/>
-      </div>
-
-      <button onClick={handleSubmit} className="btn btn-primary" type="submit">Submit</button> */}
     </form>
   )
 
@@ -174,10 +179,14 @@ const ProductPage: React.FunctionComponent = () => {
       <div className="row">
         <div className="col-md-8 offset-md-2">
 
-          {/* {
-            success ? <Alert status={AlertEnum.SUCCESS} message={`Product ${name} was successfully created!`} displayWhen={success}/>
-            : <Alert status={AlertEnum.ERROR} message={`Unable to add product ${name}`} displayWhen={error}/>  
-          } */}
+          {
+            loading? <Alert status={AlertEnum.INFO} message={`Loading...`} displayWhen={loading}/> : null
+          }
+
+          {
+            createdProduct ? <Alert status={AlertEnum.SUCCESS} message={`Product ${name} was successfully created!`} displayWhen={createdProduct}/>
+            : <Alert status={AlertEnum.ERROR} message={`${error}`} displayWhen={error}/> 
+          }
 
           {form()}
 
