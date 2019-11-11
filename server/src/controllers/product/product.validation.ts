@@ -9,9 +9,9 @@ export class ProductValidator {
   private static createProductSchema: Joi.ObjectSchema = Joi.object({
     name: Joi.string().min(2).max(32).required(),
     description: Joi.string().min(2).max(2000).required(),
-    price: Joi.number().min(2).max(32).required(),
+    price: Joi.number().min(2).required(),
     category: Joi.string().required(),
-    quantity: Joi.number(),
+    quantity: Joi.number().required(),
     sold: Joi.number(),
     photo: Joi.string(),
     shipping: Joi.boolean()
