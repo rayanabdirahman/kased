@@ -59,7 +59,7 @@ const ProductPage: React.FunctionComponent = () => {
       setstate({...state, categories: response, formData: new FormData()})
 
     } catch (error) {
-
+      console.log(`Failed to init function on product page: ${error}`)
     }
     
   }

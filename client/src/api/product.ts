@@ -2,9 +2,10 @@ import { API_BASE_URL } from "../config";
 // import { any } from "../domain/interfaces";
 
 const API_CREATE_PRODUCT = `${API_BASE_URL}/product/create/`
+const API_GET_PRODUCTS = `${API_BASE_URL}/product/`
 
 /**
- * Create category
+ * Create product
  * @param { string } userId - stores logged in user id
  * @param { string } token - stores user bearer token
  * @param { any } product - stores required product details for creating a new product
@@ -29,5 +30,25 @@ export const createProduct = async(userId: string, token: string, product:  any)
   } catch(error) {
     console.log(error)
     console.error(`API CALL:createProduct=>>>>>> Error when creating a category: ${error}`)
+  }
+}
+
+/**
+ * Return a list of all products you can sortBy 
+ * @param { string } userId - stores logged in user id
+ * @param { string } token - stores user bearer token
+ * @param { ICreateCategoryModel } category - stores required category details for creating a new category
+ */
+export const getProducts = async(sortBy: string) => {
+  try {
+    let response = await fetch(`${API_GET_PRODUCTS}?sortBy=${sortBy}&order=desc&limit=6`, {
+      method: 'GET',
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`API CALL:getProducts=>>>>>> Error when getting a list of all products: ${error}`)
   }
 }
