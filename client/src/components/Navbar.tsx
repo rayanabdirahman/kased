@@ -31,6 +31,11 @@ const Navbar: React.FunctionComponent<Props> = ({ history }) => (
                 Home <span className="sr-only">(current)</span>
               </Link>
             </li>
+            <li className="nav-item active">
+              <Link className="nav-link" to="/shop" style={isActive(history, '/shop')}>
+                Shop <span className="sr-only">(current)</span>
+              </Link>
+            </li>
             {/* Conditionally show admin dashboard if user is admin */}
             {
               (isAuthenticated() && isAuthenticated().user.role === 1) ?
