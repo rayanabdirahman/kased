@@ -13,7 +13,9 @@ const Card: React.FunctionComponent<IProps>  = ({ product }) => (
       <div className="card-header">{product.name}</div>
       <div className="card-body">
         <ProductImage item={product} url="product"/>
-        <p>{product.description}</p>
+        <p>
+          {product.description.substring(0, 100)}
+        </p>
         <p>£{product.price}</p>
         <Link to="/">
           <button className="btn-outline-primary mt-2 mb-2">View Product</button>
