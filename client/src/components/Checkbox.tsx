@@ -31,7 +31,7 @@ const Checkbox: React.FunctionComponent<IProps> = ({ categories, handleFilters }
   return (
     categories.map((category: any, index: number) => (
       <li key={`category-checkbox--${index}`} className={`list-unstyled`}>
-        <input onChange={handleToggle(category._id)} value={checked.indexOf(category._id === -1)} type="checkbox" className="fomr-check-input"/>
+        <input onChange={handleToggle(category._id)} value={checked.indexOf(category._id === -1)} type="checkbox" className="form-check-input"/>
         <label className="form-check-label">{category.name}</label>
       </li>
     ))
