@@ -3,6 +3,7 @@ import { API_BASE_URL } from "../config";
 
 const API_CREATE_PRODUCT = `${API_BASE_URL}/product/create/`
 const API_GET_PRODUCTS = `${API_BASE_URL}/product/`
+const API_SEARCH_PRODUCTS = `${API_BASE_URL}/product/search`
 
 /**
  * Create product
@@ -12,10 +13,6 @@ const API_GET_PRODUCTS = `${API_BASE_URL}/product/`
  */
 export const createProduct = async(userId: string, token: string, product:  any) => {
   try {
-    // const createProductModel: any = {
-    //   ...product
-    // }
-
     let response = await fetch(`${API_CREATE_PRODUCT}${userId}`, {
       method: 'POST',
       headers: {
@@ -50,5 +47,34 @@ export const getProducts = async(sortBy: string) => {
   } catch(error) {
     console.log(error)
     console.error(`API CALL:getProducts=>>>>>> Error when getting a list of all products: ${error}`)
+  }
+}
+
+/**
+ * Search products by filters
+ * @param { number } skip - stores logged in user id
+ * @param { number } limit - stores user bearer token
+ * @param { any } filters - stores required product details for creating a new product
+ */
+export const searchProducts = async(skip: any, limit: any, filters = {}) => {
+  try {
+    const data = {
+      limit, skip, filters
+    }
+
+    let response = await fetch(`${API_SEARCH_PRODUCTS}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`API CALL:searchProducts=>>>>>> Error when filtering for a product: ${error}`)
   }
 }
