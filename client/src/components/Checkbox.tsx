@@ -2,9 +2,10 @@ import React from 'react';
 
 interface IProps {
   categories: any
+  handleFilters: Function
 }
 
-const Checkbox: React.FunctionComponent<IProps> = ({ categories }) => {
+const Checkbox: React.FunctionComponent<IProps> = ({ categories, handleFilters }) => {
   const [checked, setChecked] = React.useState<any>([])
 
   const handleToggle = (categoryId: any) => () => {
@@ -20,10 +21,11 @@ const Checkbox: React.FunctionComponent<IProps> = ({ categories }) => {
       newCheckedCategoryId.splice(currentCategoryId, 1)
     }
 
-    console.log(newCheckedCategoryId)
-
     // set state with new checked items
     setChecked(newCheckedCategoryId)
+
+    // send checked filters to parent component
+    handleFilters(newCheckedCategoryId)
   }
 
   return (

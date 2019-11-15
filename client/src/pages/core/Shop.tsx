@@ -28,6 +28,10 @@ const Shop: React.FunctionComponent = () => {
     // run functions to get categories
     init()
   },[])
+
+  const handleFilters = (filters: Array<string>, filterBy: string) => {
+    console.log(`SHOP::: filters: ${filters} ------- filterBy: ${filterBy}`)
+  }
     
 
   return (
@@ -36,7 +40,7 @@ const Shop: React.FunctionComponent = () => {
         <div className="col-4">
           <h4>Filter by categories</h4>
           <ul>
-            <Checkbox categories={categories}/>
+            <Checkbox categories={categories} handleFilters={ (filters: Array<string>) => handleFilters(filters, 'category')}/>
           </ul>
         </div>
         <div className="col-8">
