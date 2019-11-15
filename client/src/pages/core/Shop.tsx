@@ -5,6 +5,9 @@ import Checkbox from '../../components/Checkbox'
 
 const Shop: React.FunctionComponent = () => {
   const [categories, setCategories] = React.useState<any>([])
+  const [myFilters, setMyFilters] = React.useState<any>({
+    filters: { category: [], price: [] }
+  })
   const [error, setError] = React.useState<any>([])
 
   const init = async() => {
@@ -30,7 +33,11 @@ const Shop: React.FunctionComponent = () => {
   },[])
 
   const handleFilters = (filters: Array<string>, filterBy: string) => {
-    console.log(`SHOP::: filters: ${filters} ------- filterBy: ${filterBy}`)
+    // console.log(`SHOP::: filters: ${filters} ------- filterBy: ${filterBy}`)
+    const newFilters = {...myFilters}
+    newFilters.filters[filterBy] = filters
+
+    setMyFilters(newFilters)
   }
     
 
@@ -45,6 +52,7 @@ const Shop: React.FunctionComponent = () => {
         </div>
         <div className="col-8">
           Content
+          {JSON.stringify(myFilters)}
         </div>
       </div>
     </Layout>
