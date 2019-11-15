@@ -1,6 +1,7 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import { getCategories } from '../../api/category'
+import Checkbox from '../../components/Checkbox'
 
 const Shop: React.FunctionComponent = () => {
   const [categories, setCategories] = React.useState<any>([])
@@ -33,8 +34,10 @@ const Shop: React.FunctionComponent = () => {
     <Layout title="Shop page" description="Search and find books of your choice">
       <div className="row">
         <div className="col-4">
-          Sidebasr
-          { JSON.stringify(categories)}
+          <h4>Filter by categories</h4>
+          <ul>
+            <Checkbox categories={categories}/>
+          </ul>
         </div>
         <div className="col-8">
           Content
