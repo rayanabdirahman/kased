@@ -8,14 +8,14 @@ import { searchProducts } from '../../api/product'
 import Card from '../../components/Card'
 
 const Shop: React.FunctionComponent = () => {
-  const [categories, setCategories] = React.useState<any>([])
   const [initialFilters, setInitialFilters] = React.useState<any>({
     filters: { category: [], price: [] }
   })
-
-  const [error, setError] = React.useState<any>([])
+  const [categories, setCategories] = React.useState<any>([])
+  const [error, setError] = React.useState<any>(false)
   const [limit, setLimit] = React.useState<any>(6)
   const [skip, setSkip] = React.useState<any>(0)
+  const [size, setSize] = React.useState<any>(0)
   const [filteredResults, setFilteredResults] = React.useState<any>([])
 
   const init = async() => {
@@ -45,6 +45,34 @@ const Shop: React.FunctionComponent = () => {
       }
   
       setFilteredResults(response.products)
+      // set size for results
+      setSize(response.size)
+      
+      // set skip to zero
+      setSkip(0)
+
+    } catch (error) {
+      console.log(`loadFilteredResults=>>> Failed to load filtered products: ${error}`)
+    }
+  }
+
+  const loadMoreProducts = async () => {
+    try {
+      const productsToSkip = skip + limit
+
+      const response = await searchProducts(productsToSkip, limit, initialFilters.filters)
+
+      // check for errors
+      if (response.error) {
+        return setError(response.statusText)
+      }
+  
+      setFilteredResults([...filteredResults, ...response.products])
+      // set size for results
+      setSize(response.size)
+      
+      // set skip to zero
+      setSkip(0)
 
     } catch (error) {
       console.log(`loadFilteredResults=>>> Failed to load filtered products: ${error}`)
@@ -108,6 +136,10 @@ const Shop: React.FunctionComponent = () => {
               ))
             }
           </div>
+          <hr/>
+          {
+            (size > 0 && size >= limit) ? <button onClick={loadMoreProducts} className="btn btn-warning mb-5">Load more</button> : null
+          }
         </div>
       </div>
     </Layout>
