@@ -2,6 +2,8 @@ import React from 'react'
 import Layout from '../../components/Layout'
 import { getCategories } from '../../api/category'
 import Checkbox from '../../components/Checkbox'
+import Radio from '../../components/Radio'
+import prices from '../../domain/prices'
 
 const Shop: React.FunctionComponent = () => {
   const [categories, setCategories] = React.useState<any>([])
@@ -49,6 +51,9 @@ const Shop: React.FunctionComponent = () => {
           <ul>
             <Checkbox categories={categories} handleFilters={ (filters: Array<string>) => handleFilters(filters, 'category')}/>
           </ul>
+
+          <h4>Filter by prices</h4>
+          <Radio prices={prices} handleFilters={ (filters: Array<string>) => handleFilters(filters, 'price')}/>
         </div>
         <div className="col-8">
           Content
