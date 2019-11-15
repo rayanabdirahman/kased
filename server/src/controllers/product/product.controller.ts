@@ -69,14 +69,14 @@ export default class ProductController {
   public search =  async (req: express.Request, res: express.Response) => {
     try {
 
-      // get order from req.body if provided or set default to ascending order
-      const order = req.body.order ? req.body.order : 'asc';
+      // get order from req.body if provided or set default to descending order
+      const order = req.body.order ? req.body.order : 'desc';
 
       // get sortBy from req.body if provided or set default to _id
       const sortBy = req.body.sortBy ? req.body.sortBy : '_id';
 
       // get limit from req.body if provided or set default to 6
-      const limit = req.body.limit ? parseInt(req.body.limit, 10) : 6;
+      const limit = req.body.limit ? parseInt(req.body.limit, 10) : 100;
 
       /**
        * get skip from req.body if provided
