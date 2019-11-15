@@ -35,11 +35,30 @@ const Shop: React.FunctionComponent = () => {
   },[])
 
   const handleFilters = (filters: Array<string>, filterBy: string) => {
-    // console.log(`SHOP::: filters: ${filters} ------- filterBy: ${filterBy}`)
     const newFilters = {...myFilters}
     newFilters.filters[filterBy] = filters
 
+    // check if filterBy is price
+    if (filterBy === 'price') {
+      let priceValues = handlePrice(filters)
+      newFilters.filters[filterBy] = priceValues
+    }
+
+
     setMyFilters(newFilters)
+  }
+
+  const handlePrice = (value: any) => {
+    const data = prices
+    let array: Array<any> = []
+
+    for (let key in data) {
+      if ( data[key]._id === parseInt(value)) {
+        array = data[key].array
+      }
+    }
+
+    return array
   }
     
 
@@ -53,7 +72,7 @@ const Shop: React.FunctionComponent = () => {
           </ul>
 
           <h4>Filter by prices</h4>
-          <Radio prices={prices} handleFilters={ (filters: Array<string>) => handleFilters(filters, 'price')}/>
+          <Radio prices={prices} handleFilters={ (filters: any) => handleFilters(filters, 'price')}/>
         </div>
         <div className="col-8">
           Content
