@@ -17,14 +17,6 @@ const Search: React.FunctionComponent<IProps> = () => {
 
   const {categories, category, search, results, searched} = state;
 
-  // const handleChange = (event: any) => {
-  //   // send onChange value to parent component
-  //   handleFilters(event.target.value)
-
-  //   // update state to show current checked radio
-  //   setValue(event.target.value)
-  // }
-
   const loadCategories  = async() => {
     try {
       const response = await getCategories()
@@ -49,9 +41,64 @@ const Search: React.FunctionComponent<IProps> = () => {
     // loadProductsByArrival()
   },[])
 
+  const handleSubmit = (event: any) => {
+    // send onChange value to parent component
+    // handleFilters(event.target.value)
+
+    // update state to show current checked radio
+    // setValue(event.target.value)
+  }
+
+  /**
+   * Listens for changes on input fields
+   * @param { string } name - stores form name
+   * @param event - listens for onChange event
+   */
+  const handleChange = (name: string) => (event: any) => {
+    // check if photo is being uploaded before setting state
+    // const value = name === 'photo' ? event.target.files[0] : event.target.value
+
+    // set formData values
+    // formData.set(name, value)
+
+    // set state
+    // setstate({...state, error: false, [name]: value })
+  }
+
+  // form mark up
+  const form = () => (
+    <form className="mb-3" onSubmit={handleSubmit}>
+      <span className="input-group-text">
+        <div className="input-group-prepend">
+          <select className="btn mr-2" onChange={handleChange('category')}>
+            <option value="All">Select category</option>
+            {
+              // check if categories array is filled
+              categories && categories.map((category: any, index: number) => (
+                <option key={`search-category--${index}`} value={category._id}>{category.name}</option>
+              ))
+            }
+
+          </select>
+        </div>
+
+
+        <div className="input-group input-group-lg">
+          <input type="search" className="form-control" onChange={handleChange('search')} placeholder="Search by name"/>
+        </div>
+
+        <div className="btn input-group-append" style={{border:'none'}}>
+          <button className="input-group-text">Search </button>
+        </div>
+      </span>
+    </form>
+  )
+
   return (
-    <div>
-<h2>Search bar: {JSON.stringify(categories)} </h2>
+    <div className="row">
+      <div className="container mb-3">
+        {form()}
+      </div>
     </div>
   )
 }
