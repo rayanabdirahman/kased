@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "../config";
+import queryString from 'querystring';
 // import { any } from "../domain/interfaces";
 
 const API_CREATE_PRODUCT = `${API_BASE_URL}/product/create/`
@@ -76,5 +77,26 @@ export const searchProducts = async(skip: any, limit: any, filters = {}) => {
   } catch(error) {
     console.log(error)
     console.error(`API CALL:searchProducts=>>>>>> Error when filtering for a product: ${error}`)
+  }
+}
+
+/**
+ * Return a list of all products you can sortBy 
+ * @param { string } userId - stores logged in user id
+ * @param { string } token - stores user bearer token
+ * @param { ICreateCategoryModel } category - stores required category details for creating a new category
+ */
+export const listProducts = async(params: any) => {
+  try {
+    const query = queryString.stringify(params)
+    let response = await fetch(`${API_GET_PRODUCTS}?${query}`, {
+      method: 'GET',
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`API CALL:listProducts=>>>>>> Error when getting a list of all products: ${error}`)
   }
 }

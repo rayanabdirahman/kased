@@ -1,5 +1,6 @@
 import React from 'react';
 import { getCategories } from '../api/category';
+import { listProducts } from '../api/product';
 
 interface IProps {
   // prices: any
@@ -41,12 +42,51 @@ const Search: React.FunctionComponent<IProps> = () => {
     // loadProductsByArrival()
   },[])
 
-  const handleSubmit = (event: any) => {
-    // send onChange value to parent component
-    // handleFilters(event.target.value)
+  const searchedResults = async() => {
+    try { 
+      if(search) {
+        const response = await listProducts({ search: search || undefined, category });
 
-    // update state to show current checked radio
-    // setValue(event.target.value)
+        // check for errors
+        if (response.error) {
+          console.error(`searchedResults=>>> Failed to list products: ${response.error}`)
+          // setState({...state, error: response.error, success: false});
+          // throw new Error(response.statusText);
+        }
+
+        setState({...state, results: response, searched: true})
+      }
+    } catch(error) {
+      console.log(`searchedResults=>>> Failed to list products: ${error}`)
+    }
+  }
+
+  /**
+   * Listens for form submitions
+   * Passes required fields to create categories function
+   * @param event - listens for onClcik event
+   */
+  const handleSubmit = async(event: any) => {
+    // prevent default event behaviour
+    event.preventDefault();
+
+    searchedResults()
+
+    // Reset error state on form when user submits
+    // setError('')
+    // setSuccess(false)
+
+    // pass user details and category state values to backend api
+    // const response = await createCategory(user._id, token, { name });
+
+    // check for errors
+    // if (response.error) {
+    //   return setError(response.error);
+    // }
+
+    // // if user is able to create category set Error empty and success true
+    // setError('')
+    // setSuccess(true)
   }
 
   /**
@@ -62,7 +102,7 @@ const Search: React.FunctionComponent<IProps> = () => {
     // formData.set(name, value)
 
     // set state
-    // setstate({...state, error: false, [name]: value })
+    setState({...state, [name]: event.target.value, searched: false})
   }
 
   // form mark up
@@ -98,6 +138,7 @@ const Search: React.FunctionComponent<IProps> = () => {
     <div className="row">
       <div className="container mb-3">
         {form()}
+        {JSON.stringify(results)}
       </div>
     </div>
   )
