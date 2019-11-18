@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from '../../components/Layout';
 import { getProducts } from '../../api/product';
 import Card from '../../components/Card';
+import Search from '../../components/Search';
 
 const HomePage: React.FunctionComponent = () => {
   const [productsBySell, setproductsBySell] = React.useState<any>([])
@@ -49,6 +50,7 @@ const HomePage: React.FunctionComponent = () => {
   
   return (
     <Layout title="Kased" description="Warehouse prices without the hassle">
+      <Search />
       <h2 className="mb-4">New Arrivals</h2>
       <div className="row">
         { productsByArrival.map((product: any, index: number) => (
