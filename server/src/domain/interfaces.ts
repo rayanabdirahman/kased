@@ -37,3 +37,8 @@ export interface IProductSearchArg {
   };
 }
 
+export interface ISearchQuery {
+  name?: any;
+  category?: any;
+}
+

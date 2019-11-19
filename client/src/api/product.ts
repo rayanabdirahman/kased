@@ -5,6 +5,7 @@ import queryString from 'querystring';
 const API_CREATE_PRODUCT = `${API_BASE_URL}/product/create/`
 const API_GET_PRODUCTS = `${API_BASE_URL}/product/`
 const API_SEARCH_PRODUCTS = `${API_BASE_URL}/product/search`
+const API_LISTSEARCH_PRODUCTS = `${API_BASE_URL}/product/listsearch`
 
 /**
  * Create product
@@ -89,7 +90,8 @@ export const searchProducts = async(skip: any, limit: any, filters = {}) => {
 export const listProducts = async(params: any) => {
   try {
     const query = queryString.stringify(params)
-    let response = await fetch(`${API_GET_PRODUCTS}?${query}`, {
+    console.log('paframs: ', query)
+    let response = await fetch(`${ API_LISTSEARCH_PRODUCTS}?${query}`, {
       method: 'GET',
     })
 

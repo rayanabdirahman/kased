@@ -20,6 +20,7 @@ export enum ErrorMessage {
   RELATED_PRODUCTS = 'Unable to find related products',
   LIST_PRODUCT_CATEGORIES = 'Unable to find product categories',
   SEARCH_PRODUCT = 'Unable to find any products matching your search query',
+  LISTSEARCH_PRODUCT = 'Unable to find any products matching your search query',
 }
 
 export enum SuccessMessage {

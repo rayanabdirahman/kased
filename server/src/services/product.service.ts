@@ -3,7 +3,7 @@ import fs from 'fs';
 import * as _ from 'lodash';
 import Product from '../data_access/models/product.model';
 import { ErrorMessage } from './../constants';
-import { IProductSearchArg } from '../domain/interfaces';
+import { IProductSearchArg, ISearchQuery } from '../domain/interfaces';
 
 export default class ProductService {
   // Find all products
@@ -28,6 +28,11 @@ export default class ProductService {
                         .sort([[sortBy, order]])
                         .skip(skip)
                         .limit(limit);
+  }
+
+  // Find searched for products using query object
+  public async listSearch(query: ISearchQuery) {
+    return await Product.find(query).select('-photo');
   }
 
   // Find all related products

@@ -55,7 +55,7 @@ const Search: React.FunctionComponent<IProps> = () => {
           // throw new Error(response.statusText);
         }
 
-        setState({...state, results: response, searched: true})
+        setState({...state, results: response.products, searched: true})
       }
     } catch(error) {
       console.log(`searchedResults=>>> Failed to list products: ${error}`)
@@ -135,10 +135,10 @@ const Search: React.FunctionComponent<IProps> = () => {
     </form>
   )
 
-  const displaySearchedProducts = (results = []) => (
+  const displaySearchedProducts = (results: any = []) => (
     <div className="row">
       {
-        results.map((product: any, index: number) => (<Card key={`search-product-card--${index}`} product={product}/>) )
+        results.map((result: any, index: number) => (<Card key={`search-product-card--${index}`} product={result}/>) )
       }
     </div>
   )
@@ -150,7 +150,7 @@ const Search: React.FunctionComponent<IProps> = () => {
       </div>
 
       <div className="container-fluid mb-3">
-        { displaySearchedProducts(results)}
+        {displaySearchedProducts(results)}
       </div>
     </div>
   )

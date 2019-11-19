@@ -3,7 +3,7 @@ import formidable from 'formidable';
 import * as _ from 'lodash';
 import logger from '../../helpers/logger';
 import ProductService from '../../services/product.service';
-import { ICreateProductModel, IProductSearchArg } from '../../domain/interfaces';
+import { ICreateProductModel, IProductSearchArg, ISearchQuery } from '../../domain/interfaces';
 import { ProductValidator } from './product.validation';
 import { ErrorMessage, SuccessMessage } from '../../constants';
 import { IExtendedRequest } from '../../custom';
@@ -111,6 +111,34 @@ export default class ProductController {
     } catch (error) {
       const message = error.message || error;
       logger.error(`<<<ProductController.search>>> ${ErrorMessage.SEARCH_PRODUCT}: ${message}`);
+      res.send({ error: message });
+    }
+  }
+
+  // List of products by searched query
+  public listSearch =  async (req: express.Request, res: express.Response) => {
+    try {
+      // hold search and category value
+      const query: ISearchQuery = {};
+
+      if (req.query.search) {
+        // assign search value to query.name
+        query.name = {$regex: req.query.search, $options: 'i'};
+
+        // assign category value to query.category
+        if (req.query.cateogry && req.query.category !== 'All') {
+          query.category = req.query.category;
+        }
+      }
+
+      // return all products that meet query object
+      const products = await this.productService.listSearch(query);
+
+      return res.status(200).json({ size: products.length, products });
+
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<ProductController.listSearch>>> ${ErrorMessage.LISTSEARCH_PRODUCT }: ${message}`);
       res.send({ error: message });
     }
   }
