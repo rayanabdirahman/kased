@@ -137,11 +137,24 @@ const Search: React.FunctionComponent<IProps> = () => {
 
   const displaySearchedProducts = (results: any = []) => (
     <div className="row">
+      <h2 className="mt-4 mb-4">
+        {printMessage(searched, results)}
+      </h2>
       {
         results.map((result: any, index: number) => (<Card key={`search-product-card--${index}`} product={result}/>) )
       }
     </div>
   )
+
+  const printMessage = (searched: string, results: []) => {
+    if(searched && results.length > 0) {
+      return `Found ${results.length} products`
+    }
+
+    if(searched && results.length < 1) {
+      return `No products found`
+    }
+  }
 
   return (
     <div className="row">
