@@ -126,7 +126,7 @@ export default class ProductController {
         query.name = {$regex: req.query.search, $options: 'i'};
 
         // assign category value to query.category
-        if (req.query.cateogry && req.query.category !== 'All') {
+        if (req.query.category && req.query.category !== 'All') {
           query.category = req.query.category;
         }
       }
