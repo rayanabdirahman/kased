@@ -1,6 +1,7 @@
 import React from 'react';
 import { getCategories } from '../api/category';
 import { listProducts } from '../api/product';
+import Card from './Card';
 
 interface IProps {
   // prices: any
@@ -134,11 +135,22 @@ const Search: React.FunctionComponent<IProps> = () => {
     </form>
   )
 
+  const displaySearchedProducts = (results = []) => (
+    <div className="row">
+      {
+        results.map((product: any, index: number) => (<Card key={`search-product-card--${index}`} product={product}/>) )
+      }
+    </div>
+  )
+
   return (
     <div className="row">
       <div className="container mb-3">
         {form()}
-        {JSON.stringify(results)}
+      </div>
+
+      <div className="container-fluid mb-3">
+        { displaySearchedProducts(results)}
       </div>
     </div>
   )
