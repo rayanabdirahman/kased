@@ -85,6 +85,6 @@ export default class ProductService {
   }
 
   public async findById(id: string) {
-    return await Product.findById(id);
+    return await Product.findById(id).populate('category');
   }
 }
