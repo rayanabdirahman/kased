@@ -4,10 +4,11 @@ import ProductImage from './ProductImage';
 
 interface IProps {
   product: any
+  showViewProductButton?: boolean
 }
 
 
-const Card: React.FunctionComponent<IProps>  = ({ product }) => (
+const Card: React.FunctionComponent<IProps>  = ({ product, showViewProductButton = true }) => (
   <div className="card">
     <div className="card-header">{product.name}</div>
     <div className="card-body">
@@ -17,7 +18,9 @@ const Card: React.FunctionComponent<IProps>  = ({ product }) => (
       </p>
       <p>£{product.price}</p>
       <Link to={`/product/${product._id}`}>
-        <button className="btn-outline-primary mt-2 mb-2">View Product</button>
+        {
+          showViewProductButton && <button className="btn-outline-primary mt-2 mb-2">View Product</button>
+        }
       </Link>
       <button className="btn-outline-warning mt-2 mb-2">Add to Cart</button>
     </div>
