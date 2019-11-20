@@ -6,6 +6,7 @@ const API_CREATE_PRODUCT = `${API_BASE_URL}/product/create`
 const API_GET_PRODUCTS = `${API_BASE_URL}/product`
 const API_SEARCH_PRODUCTS = `${API_BASE_URL}/product/search`
 const API_LISTSEARCH_PRODUCTS = `${API_BASE_URL}/product/listsearch`
+const API_RELATED_PRODUCTS = `${API_BASE_URL}/product/related`
 
 /**
  * Create product
@@ -118,5 +119,23 @@ export const listProducts = async(params: any) => {
   } catch(error) {
     console.log(error)
     console.error(`API CALL:listProducts=>>>>>> Error when getting a list of all products: ${error}`)
+  }
+}
+
+/**
+ * Return a list of all related products
+ * @param { string } productId - stores product id
+ */
+export const getRelatedProducts = async(productId: string) => {
+  try {
+    let response = await fetch(`${API_RELATED_PRODUCTS}/${productId}`, {
+      method: 'GET',
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`API CALL:getRelatedProducts=>>>>>> Error when getting a list of all products: ${error}`)
   }
 }
