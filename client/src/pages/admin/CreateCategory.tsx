@@ -6,7 +6,7 @@ import Alert from "../../components/Alert"
 import { AlertEnum } from '../../domain/enums'
 import { Link } from 'react-router-dom'
 
-const CategoryPage: React.FunctionComponent = () => {
+const CreateCategoryPage: React.FunctionComponent = () => {
   // sets initial state for component
   const [name, setName] = React.useState('')
   const [error, setError] = React.useState('')
@@ -83,9 +83,6 @@ const CategoryPage: React.FunctionComponent = () => {
     </div>
     </Layout>
   )
-
-
-
 }
 
-export default CategoryPage;
+export default CreateCategoryPage;
