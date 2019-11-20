@@ -1,6 +1,7 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import { getProduct } from '../../api/product'
+import Card from '../../components/Card'
 
 interface IProps {
   match: any
@@ -35,10 +36,12 @@ const ProductPage: React.FunctionComponent<IProps> = (props) => {
   },[])
 
   return (
-    <Layout title="Product Page" description={`Welcome to product page`} >
+    <Layout title={`${product && product.name}`} description={`${product && product.description && product.description.substring(0,100)}`} >
       <h2 className="mb-4">Single Product</h2>
       <div className="row">
-        { JSON.stringify(product) }
+        { 
+          product && product.description && <Card product={product} />
+        }
       </div>
     </Layout>
   )
