@@ -2,8 +2,8 @@ import { API_BASE_URL } from "../config";
 import queryString from 'querystring';
 // import { any } from "../domain/interfaces";
 
-const API_CREATE_PRODUCT = `${API_BASE_URL}/product/create/`
-const API_GET_PRODUCTS = `${API_BASE_URL}/product/`
+const API_CREATE_PRODUCT = `${API_BASE_URL}/product/create`
+const API_GET_PRODUCTS = `${API_BASE_URL}/product`
 const API_SEARCH_PRODUCTS = `${API_BASE_URL}/product/search`
 const API_LISTSEARCH_PRODUCTS = `${API_BASE_URL}/product/listsearch`
 
@@ -15,7 +15,7 @@ const API_LISTSEARCH_PRODUCTS = `${API_BASE_URL}/product/listsearch`
  */
 export const createProduct = async(userId: string, token: string, product:  any) => {
   try {
-    let response = await fetch(`${API_CREATE_PRODUCT}${userId}`, {
+    let response = await fetch(`${API_CREATE_PRODUCT}/${userId}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -40,7 +40,7 @@ export const createProduct = async(userId: string, token: string, product:  any)
  */
 export const getProducts = async(sortBy: string) => {
   try {
-    let response = await fetch(`${API_GET_PRODUCTS}?sortBy=${sortBy}&order=desc&limit=6`, {
+    let response = await fetch(`${API_GET_PRODUCTS}/?sortBy=${sortBy}&order=desc&limit=6`, {
       method: 'GET',
     })
 
