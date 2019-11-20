@@ -53,6 +53,24 @@ export const getProducts = async(sortBy: string) => {
 }
 
 /**
+ * Return a single product using Id
+ * @param { string } productId - stores product id
+ */
+export const getProduct = async(productId: string) => {
+  try {
+    let response = await fetch(`${API_GET_PRODUCTS}/${productId}`, {
+      method: 'GET',
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`API CALL:getProduct=>>>>>> Error when getting a single product: ${error}`)
+  }
+}
+
+/**
  * Search products by filters
  * @param { number } skip - stores logged in user id
  * @param { number } limit - stores user bearer token
