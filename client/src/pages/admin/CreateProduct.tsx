@@ -7,7 +7,7 @@ import { AlertEnum } from '../../domain/enums'
 import { Link } from 'react-router-dom'
 import { getCategories } from '../../api/category'
 
-const ProductPage: React.FunctionComponent = () => {
+const CreateProductPage: React.FunctionComponent = () => {
   // sets initial state for component
   const [state, setstate] = React.useState<any>({
     name: '',
@@ -110,7 +110,7 @@ const ProductPage: React.FunctionComponent = () => {
       setstate({...state, photo: '', name: '', description:'', email: '', price: '', quantity: '', loading: false, createdProduct: response.name })
 
     } catch(error) {
-      console.error(`ProductPage:handleSubmit=>>>>>> Error when submiting product info: ${error}`)
+      console.error(`CreateProductPage:handleSubmit=>>>>>> Error when submiting product info: ${error}`)
     }
   }
 
@@ -199,4 +199,4 @@ const ProductPage: React.FunctionComponent = () => {
   )
 }
 
-export default ProductPage
+export default CreateProductPage
