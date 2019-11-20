@@ -17,10 +17,10 @@ const Card: React.FunctionComponent<IProps>  = ({ product }) => (
           {product.description.substring(0, 100)}
         </p>
         <p>£{product.price}</p>
-        <Link to="/">
+        <Link to={`/product/${product._id}`}>
           <button className="btn-outline-primary mt-2 mb-2">View Product</button>
-          <button className="btn-outline-warning mt-2 mb-2">Add to Cart</button>
         </Link>
+        <button className="btn-outline-warning mt-2 mb-2">Add to Cart</button>
       </div>
     </div>
   </div>

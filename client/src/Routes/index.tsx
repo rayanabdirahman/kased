@@ -10,12 +10,14 @@ import AdminDashboardPage from '../pages/admin/Dashboard';
 import CreateCategoryPage from '../pages/admin/CreateCategory';
 import CreateProductPage from '../pages/admin/CreateProduct';
 import Shop from '../pages/core/Shop';
+import ProductPage from '../pages/core/Product';
 
 const Routes = () => {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={HomePage}></Route>
+        <Route path="/product/:productId" exact component={ProductPage}></Route>
         <Route path="/shop" exact component={Shop}></Route>
         <Route path="/login" exact component={LoginPage}></Route>
         <Route path="/signup" exact component={SignupPage}></Route>
