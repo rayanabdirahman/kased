@@ -132,7 +132,9 @@ const Shop: React.FunctionComponent = () => {
           <div className="row">
             {
               filteredResults.map((product: any, index: number) => (
-                <Card  key={`filtered-product-card--${index}`} product={product} />
+                <div key={`filtered-product-card--${index}`} className="col-4 mb-3">
+                  <Card product={product} />
+                </div>
               ))
             }
           </div>

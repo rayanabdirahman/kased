@@ -40,7 +40,9 @@ const ProductPage: React.FunctionComponent<IProps> = (props) => {
       <h2 className="mb-4">Single Product</h2>
       <div className="row">
         { 
-          product && product.description && <Card product={product} />
+          product && product.description && 
+          
+          <Card product={product} />
         }
       </div>
     </Layout>
