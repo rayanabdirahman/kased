@@ -18,7 +18,7 @@ const CartPage: React.FunctionComponent = () => {
       <h2>Your cart has {`${items.length}`} items </h2>
       <hr/>
       {
-        items.map((item: any, index: number) => (<Card key={`cart-item--${index}`} product={item} />))
+        items.map((item: any, index: number) => (<Card key={`cart-item--${index}`} product={item} showAddToCartButton={false} />))
       }
     </div>
   )
@@ -27,10 +27,6 @@ const CartPage: React.FunctionComponent = () => {
     <div>
       <h2>Your cart empty </h2>
       <Link to="/shop">Continue shopping</Link>
-      <hr/>
-      {
-        items.map((item: any, index: number) => (<Card key={`cart-item--${index}`} product={item} />))
-      }
     </div>
   )
   
