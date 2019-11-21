@@ -46,3 +46,22 @@ export const getCartItems = () => {
 
   return []
 }
+
+export const updateCartItem = (productId: any, count: any) => {
+  let cart: any = [];
+
+  if (typeof window !== 'undefined') {
+    // get item from local storage
+    if (localStorage.getItem(LOCALSTORAGE_CART_NAME)) {
+      cart = JSON.parse(`${localStorage.getItem(LOCALSTORAGE_CART_NAME)}`)
+    }
+  }
+
+  cart.map((product: any, index: number) => {
+    if (product._id === productId) {
+      cart[index].count = count
+    }
+  })
+
+  localStorage.setItem(`${LOCALSTORAGE_CART_NAME}`, JSON.stringify(cart))
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import moment from 'moment'
 import ProductImage from './ProductImage';
-import { addItem } from '../api/cart';
+import { addItem, updateCartItem } from '../api/cart';
 
 interface IProps {
   product: any
@@ -13,6 +13,7 @@ interface IProps {
 
 const Card: React.FunctionComponent<IProps>  = ({ product, showViewProductButton = true , showAddToCartButton = true, cartUpdate = false }) => {
   const [redirect, setRedirect] = React.useState<any>(false)
+  const [count, setCount] = React.useState<any>(product.count)
 
   const addToCart = () => {
     addItem(product, () => {
@@ -26,8 +27,22 @@ const Card: React.FunctionComponent<IProps>  = ({ product, showViewProductButton
     }
   }
 
-  const showCartUpdateOptions = (cartUpdate: any) => {
-    return cartUpdate && <div>Icrement/decrement</div>
+  const handleChange = (productId: any) => (event: any) => {
+    setCount((event.target.value < 1) ? 1 : event.target.value)
+    if(event.target.value >= 1) {
+      updateCartItem(productId, event.target.value)
+    }
+  }
+
+  const showCartUpdateOptions = (cartUpdate: boolean) => {
+    return cartUpdate && <div>
+      <div className="input-group mb-3">
+        <div className="input-group-prepend">
+          <span className="input-group-text">Adjust Quantity</span>
+        </div>
+        <input type="number" className="form-control" value={count} onChange={handleChange(product._id)}/>
+      </div>
+    </div>
   }
   
   return (
