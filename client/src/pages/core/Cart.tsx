@@ -3,6 +3,7 @@ import { getCartItems } from '../../api/cart';
 import Card from '../../components/Card';
 import { Link } from 'react-router-dom';
 import Layout from '../../components/Layout';
+import Checkout from '../../components/Checkout';
 
 const CartPage: React.FunctionComponent = () => {
   const [items, setItems] = React.useState<any>([])
@@ -48,7 +49,8 @@ const CartPage: React.FunctionComponent = () => {
           { (items.length > 0) ?  showItems(items) : noItemsMessage()}
         </div>
         <div className="col-6">
-          <p>Show checkout options</p>
+          <h2 className="mb-4">Your cart summary</h2>
+          <Checkout products={items} />
         </div>
       </div>
     </Layout>
