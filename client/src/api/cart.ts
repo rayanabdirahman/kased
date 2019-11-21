@@ -24,3 +24,14 @@ export const addItem = (item:  any, next: any) => {
     next()
   }
 }
+
+export const itemTotal = () => {
+  if (typeof window !== 'undefined') {
+    // get item from local storage
+    if (localStorage.getItem(LOCALSTORAGE_CART_NAME)) {
+      return JSON.parse(`${localStorage.getItem(LOCALSTORAGE_CART_NAME)}`).length
+    }
+  }
+
+  return 0
+}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, withRouter } from "react-router-dom"
 import { logout, isAuthenticated } from '../api/auth'
+import { itemTotal } from '../api/cart'
 
 const isActive = (history: any, path: any) => {
   if(history.location.pathname === path) {
@@ -34,6 +35,12 @@ const Navbar: React.FunctionComponent<Props> = ({ history }) => (
             <li className="nav-item active">
               <Link className="nav-link" to="/shop" style={isActive(history, '/shop')}>
                 Shop <span className="sr-only">(current)</span>
+              </Link>
+            </li>
+            <li className="nav-item active">
+              <Link className="nav-link" to="/cart" style={isActive(history, '/cart')}>
+                Cart <sup><small className="cart-badge">{itemTotal()}</small></sup>
+                <span className="sr-only">(current)</span>
               </Link>
             </li>
             {/* Conditionally show admin dashboard if user is admin */}
