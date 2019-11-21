@@ -8,9 +8,10 @@ interface IProps {
   product: any
   showViewProductButton?: boolean
   showAddToCartButton?: boolean
+  cartUpdate?: boolean
 }
 
-const Card: React.FunctionComponent<IProps>  = ({ product, showViewProductButton = true , showAddToCartButton = true }) => {
+const Card: React.FunctionComponent<IProps>  = ({ product, showViewProductButton = true , showAddToCartButton = true, cartUpdate = false }) => {
   const [redirect, setRedirect] = React.useState<any>(false)
 
   const addToCart = () => {
@@ -23,6 +24,10 @@ const Card: React.FunctionComponent<IProps>  = ({ product, showViewProductButton
     if(redirect) {
       return <Redirect to="/cart" />
     }
+  }
+
+  const showCartUpdateOptions = (cartUpdate: any) => {
+    return cartUpdate && <div>Icrement/decrement</div>
   }
   
   return (
@@ -50,6 +55,8 @@ const Card: React.FunctionComponent<IProps>  = ({ product, showViewProductButton
         {
           showAddToCartButton && <button onClick={addToCart} className="btn-outline-warning mt-2 mb-2">Add to Cart</button>
         }
+
+        {showCartUpdateOptions(cartUpdate)}
       </div>
     </div>
   )
