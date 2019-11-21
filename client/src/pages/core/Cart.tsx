@@ -6,19 +6,30 @@ import Layout from '../../components/Layout';
 
 const CartPage: React.FunctionComponent = () => {
   const [items, setItems] = React.useState<any>([])
+  const [run, setRun] = React.useState<any>(false);
 
   // lifecycle method to run everytime the component mounts
   React.useEffect(() => {
     // run functions to get cart items
     setItems(getCartItems())
-  },[])
+  },[run])
 
   const showItems = (items: any) => (
     <div>
       <h2>Your cart has {`${items.length}`} items </h2>
       <hr/>
       {
-        items.map((item: any, index: number) => (<Card key={`cart-item--${index}`} product={item} showAddToCartButton={false} cartUpdate={true} />))
+        items.map((item: any, index: number) => (
+          <Card 
+            key={`cart-item--${index}`}
+            product={item}
+            showAddToCartButton={false}
+            showRemoveFromCartButton={true}
+            cartUpdate={true}
+            setRun={setRun}
+            run={run} 
+          />)
+        )
       }
     </div>
   )

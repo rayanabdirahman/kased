@@ -2,16 +2,28 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import moment from 'moment'
 import ProductImage from './ProductImage';
-import { addItem, updateCartItem } from '../api/cart';
+import { addItem, updateCartItem, removeCartItem } from '../api/cart';
 
 interface IProps {
   product: any
   showViewProductButton?: boolean
   showAddToCartButton?: boolean
+  showRemoveFromCartButton?: boolean
   cartUpdate?: boolean
+  setRun?: any
+  run?: any
 }
 
-const Card: React.FunctionComponent<IProps>  = ({ product, showViewProductButton = true , showAddToCartButton = true, cartUpdate = false }) => {
+const Card: React.FunctionComponent<IProps>  = (
+  { 
+    product,
+    showViewProductButton = true,
+    showAddToCartButton = true,
+    showRemoveFromCartButton = false,
+    cartUpdate = false,
+    setRun = (fn: any) => fn,
+    run = undefined
+  }) => {
   const [redirect, setRedirect] = React.useState<any>(false)
   const [count, setCount] = React.useState<any>(product.count)
 
@@ -28,6 +40,7 @@ const Card: React.FunctionComponent<IProps>  = ({ product, showViewProductButton
   }
 
   const handleChange = (productId: any) => (event: any) => {
+    setRun(!run) // run useEffect in parent Cart
     setCount((event.target.value < 1) ? 1 : event.target.value)
     if(event.target.value >= 1) {
       updateCartItem(productId, event.target.value)
@@ -69,6 +82,18 @@ const Card: React.FunctionComponent<IProps>  = ({ product, showViewProductButton
 
         {
           showAddToCartButton && <button onClick={addToCart} className="btn-outline-warning mt-2 mb-2">Add to Cart</button>
+        }
+
+        {
+          showRemoveFromCartButton &&
+          <button 
+            onClick={() => {
+              removeCartItem(product._id)
+              setRun(!run); // run useEffect in parent Cart
+            }}
+            className="btn-outline-danger mt-2 mb-2">
+            Remove item from Cart
+          </button>
         }
 
         {showCartUpdateOptions(cartUpdate)}
