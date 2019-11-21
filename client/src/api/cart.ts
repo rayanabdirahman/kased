@@ -25,7 +25,7 @@ export const addItem = (item:  any, next: any) => {
   }
 }
 
-export const itemTotal = () => {
+export const cartItemTotal = () => {
   if (typeof window !== 'undefined') {
     // get item from local storage
     if (localStorage.getItem(LOCALSTORAGE_CART_NAME)) {
@@ -34,4 +34,15 @@ export const itemTotal = () => {
   }
 
   return 0
+}
+
+export const getCartItems = () => {
+  if (typeof window !== 'undefined') {
+    // get item from local storage
+    if (localStorage.getItem(LOCALSTORAGE_CART_NAME)) {
+      return JSON.parse(`${localStorage.getItem(LOCALSTORAGE_CART_NAME)}`)
+    }
+  }
+
+  return []
 }
