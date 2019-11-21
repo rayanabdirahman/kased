@@ -7,6 +7,7 @@ import auth from './api/auth.route';
 import user from './api/user.route';
 import category from './api/category.route';
 import product from './api/product.route';
+import braintree from './api/braintree.route';
 import connectToDbClient from './data_access/db_client';
 
 const app = express();
@@ -53,5 +54,6 @@ app.use('/api/auth', auth);
 app.use('/api/user', user);
 app.use('/api/category', category);
 app.use('/api/product', product);
+app.use('/api/braintree', braintree);
 
 export default app;
