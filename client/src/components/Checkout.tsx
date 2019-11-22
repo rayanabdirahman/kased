@@ -1,8 +1,5 @@
 import React from 'react';
-import { getCartItems } from '../api/cart';
-import Card from './Card';
 import { Link } from 'react-router-dom';
-import Layout from './Layout';
 import { isAuthenticated } from '../api/auth';
 
 interface IProps {
