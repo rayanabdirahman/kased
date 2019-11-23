@@ -19,6 +19,16 @@ router.get('/token/:userId',
 );
 
 /**
+ * process payment
+ * @post /braintree/token/:userId
+ */
+router.post('/payment/:userId',
+  authController.authGuard,
+  authController.isAuth,
+  braintreeController.processPayment
+);
+
+/**
  * find user id middleware
  * TODO: MOVE THIS INTO A MIDDLEWARE FODLER
  */

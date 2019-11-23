@@ -33,4 +33,31 @@ export default class BraintreeController {
       res.send({ error: message });
     }
   }
+
+  // generate braintree token for user
+  public processPayment =  async (req: express.Request, res: express.Response) => {
+    try {
+      // store payment method and amount to be paid
+      const { paymentMethodNonce, amount } = req.body;
+
+      // charge user for items
+      this.gateway.transaction.sale({
+        amount,
+        paymentMethodNonce,
+        options: {
+          submitForSettlement: true
+        }
+      }, (error: any, response: any) => {
+        if (error) {
+          return res.status(500).send({ error });
+        }
+
+        return res.status(200).send(response);
+      });
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<BrainTreeController.list>>> ${ErrorMessage.BRAINTREE_CLIENT_TOKEN}: ${message}`);
+      res.send({ error: message });
+    }
+  }
 }
