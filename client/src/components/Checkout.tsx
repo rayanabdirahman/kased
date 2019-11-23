@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../api/auth';
 import { getBraintreeClientToken } from '../api/braintree';
+import DropIn from 'braintree-web-drop-in-react';
 
 interface IProps {
   products: any
@@ -39,6 +40,27 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
     }
   }
 
+  // show credit card payment UI from braintree
+  const showDropIn = () => (
+    <div>
+      { 
+      
+        (state.clientToken !== null && products.length > 0) ? (
+          <React.Fragment>
+            <DropIn 
+              options={{
+              authorization: state.clientToken.clientToken
+              }}
+              onInstacne={(instance: any) => state.instance = instance } 
+            />
+
+            <button className="btn btn-success">Checkout</button>
+          </React.Fragment>
+        ) : null
+      }
+    </div>
+  )
+
     // lifecycle method to run everytime the component mounts
     React.useEffect(() => {
       // run functions to get braintree client token
@@ -52,7 +74,7 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
   }
 
   const progressToCheckout = () => { 
-    return isAuthenticated() ? (<button className="btn btn-success">Checkout</button>) :
+    return isAuthenticated() ? showDropIn() :
     (<Link to="/login">
       <button className="btn btn-success">Login to checkout</button>
     </Link>)
