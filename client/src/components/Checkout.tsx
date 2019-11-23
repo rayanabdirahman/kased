@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../api/auth';
-import { getBraintreeClientToken } from '../api/braintree';
+import { getBraintreeClientToken, processPayment } from '../api/braintree';
 import DropIn from 'braintree-web-drop-in-react';
 import Alert from './Alert';
 import { AlertEnum } from '../domain/enums';
@@ -49,7 +49,26 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
       const { nonce } = await state.instance.requestPaymentMethod();
 
       // send nonce (card type, card number, etc..) as 'paymentMethodNonce'
-      console.log('nonce : ', nonce, getCartItemTotal())
+      const paymentData = {
+        paymentMethodNonce: nonce,
+        amount: getCartItemTotal()
+      }
+
+      const response = await processPayment(userId, token, paymentData)
+
+      console.log('RESPONSE: ', response)
+
+      // check for errors
+      if (response.error) {
+        return setState({...state, error: response.statusText});
+      }
+
+      setState({...state, success: response.success})
+      /**
+       * TODO
+       * - empty cart
+       * - create an order
+       */
 
     } catch (error) {
       console.log(`Checkout:buy=>>> Failed to load products by arrival: ${error}`)
@@ -71,7 +90,7 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
               onInstance={(instance: any) => state.instance = instance } 
             />
 
-            <button onClick={buy} className="btn btn-success">Pay now </button>
+            <button onClick={buy} className="btn btn-success btn-block">Pay now </button>
           </React.Fragment>
         ) : null
       }
@@ -103,7 +122,8 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
       <h2>Total: £{getCartItemTotal()}</h2>
       <div>
         {
-          state.error && <Alert status={AlertEnum.ERROR} message={`${state.error.message}`} displayWhen={state.error}/>  
+          state.success ? <Alert status={AlertEnum.SUCCESS} message={`successfully processed payment!`} displayWhen={state.success}/> :
+          <Alert status={AlertEnum.ERROR} message={`${state.error.message}`} displayWhen={state.error}/>  
         }
 
         {progressToCheckout()}
