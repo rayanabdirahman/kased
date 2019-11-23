@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../api/auth';
 import { getBraintreeClientToken } from '../api/braintree';
 import DropIn from 'braintree-web-drop-in-react';
+import Alert from './Alert';
+import { AlertEnum } from '../domain/enums';
 
 interface IProps {
   products: any
@@ -40,9 +42,24 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
     }
   }
 
+  const buy = async() => {
+    try {
+      // send nonce to your server
+      // nonce = payment method {state.instance.requestPaymentMethod()}
+      const { nonce } = await state.instance.requestPaymentMethod();
+
+      // send nonce (card type, card number, etc..) as 'paymentMethodNonce'
+      console.log('nonce : ', nonce, getCartItemTotal())
+
+    } catch (error) {
+      console.log(`Checkout:buy=>>> Failed to load products by arrival: ${error}`)
+      setState({...state, error})
+    }
+  }
+
   // show credit card payment UI from braintree
   const showDropIn = () => (
-    <div>
+    <div onBlur={() => setState({...state, error: ""})}>
       { 
       
         (state.clientToken !== null && products.length > 0) ? (
@@ -51,10 +68,10 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
               options={{
               authorization: state.clientToken.clientToken
               }}
-              onInstacne={(instance: any) => state.instance = instance } 
+              onInstance={(instance: any) => state.instance = instance } 
             />
 
-            <button className="btn btn-success">Checkout</button>
+            <button onClick={buy} className="btn btn-success">Pay now </button>
           </React.Fragment>
         ) : null
       }
@@ -85,6 +102,10 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
     <div>
       <h2>Total: £{getCartItemTotal()}</h2>
       <div>
+        {
+          state.error && <Alert status={AlertEnum.ERROR} message={`${state.error.message}`} displayWhen={state.error}/>  
+        }
+
         {progressToCheckout()}
       </div>
     </div>
