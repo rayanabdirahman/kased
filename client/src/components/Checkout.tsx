@@ -13,6 +13,7 @@ interface IProps {
 
 const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
   const [state, setState] = React.useState<any>({
+    loading: false,
     success: false,
     clientToken: null,
     error: '',
@@ -46,6 +47,8 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
 
   const buy = async() => {
     try {
+      setState({...state, loading: true})
+
       // send nonce to your server
       // nonce = payment method {state.instance.requestPaymentMethod()}
       const { nonce } = await state.instance.requestPaymentMethod();
@@ -68,7 +71,7 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
       setState({...state, success: response.success})
 
       // empty cart and redirect user to shop page
-      emptyCart(() => setState({...state, redirectUser: true }))
+      emptyCart(() => setState({...state, redirectUser: true, loading: false }))
       /**
        * TODO
        * - empty cart
@@ -77,9 +80,11 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
 
     } catch (error) {
       console.log(`Checkout:buy=>>> Failed to load products by arrival: ${error}`)
-      setState({...state, error})
+      setState({...state, error, loading: false })
     }
   }
+
+  const showLoading = (loading: boolean) => (loading && <h2>Loading...</h2>)
 
   // show credit card payment UI from braintree
   const showDropIn = () => (
@@ -90,7 +95,8 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
           <React.Fragment>
             <DropIn 
               options={{
-              authorization: state.clientToken.clientToken
+                authorization: state.clientToken.clientToken,
+                paypal: { flow: "vault" }
               }}
               onInstance={(instance: any) => state.instance = instance } 
             />
@@ -126,11 +132,11 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
       return  <Redirect to='/shop' />
     }
   }
-    
 
   return (
     <div>
       <h2>Total: £{getCartItemTotal()}</h2>
+      {showLoading(state.loading)}
       <div>
 
         {
