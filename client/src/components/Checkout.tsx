@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { isAuthenticated } from '../api/auth';
 import { getBraintreeClientToken, processPayment } from '../api/braintree';
 import DropIn from 'braintree-web-drop-in-react';
 import Alert from './Alert';
 import { AlertEnum } from '../domain/enums';
+import { emptyCart } from '../api/cart';
 
 interface IProps {
   products: any
@@ -16,7 +17,8 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
     clientToken: null,
     error: '',
     instance: {},
-    address: ''
+    address: '',
+    redirectUser: false
   })
 
   // store userId
@@ -64,6 +66,9 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
       }
 
       setState({...state, success: response.success})
+
+      // empty cart and redirect user to shop page
+      emptyCart(() => setState({...state, redirectUser: true }))
       /**
        * TODO
        * - empty cart
@@ -115,18 +120,26 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
       <button className="btn btn-success">Login to checkout</button>
     </Link>)
   }
+
+  const redirectUser = () => {
+    if (state.redirectUser) {
+      return  <Redirect to='/shop' />
+    }
+  }
     
 
   return (
     <div>
       <h2>Total: £{getCartItemTotal()}</h2>
       <div>
+
         {
           state.success ? <Alert status={AlertEnum.SUCCESS} message={`successfully processed payment!`} displayWhen={state.success}/> :
           <Alert status={AlertEnum.ERROR} message={`${state.error.message}`} displayWhen={state.error}/>  
         }
 
         {progressToCheckout()}
+        {redirectUser()}
       </div>
     </div>
   )
