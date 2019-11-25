@@ -6,6 +6,7 @@ import DropIn from 'braintree-web-drop-in-react';
 import Alert from './Alert';
 import { AlertEnum } from '../domain/enums';
 import { emptyCart } from '../api/cart';
+import { createOrder } from '../api/order';
 
 interface IProps {
   products: any
@@ -68,15 +69,20 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
         return setState({...state, error: response.statusText});
       }
 
+      // create order by sending order information to backend
+      const orderData = {
+        products,
+        transaction_id: response.transaction.id,
+        amount: response.transaction.amount,
+        address: state.address,
+      }
+      createOrder(userId, token, orderData)
+
+      // set state for successful transaction
       setState({...state, success: response.success})
 
       // empty cart and redirect user to shop page
       emptyCart(() => setState({...state, redirectUser: true, loading: false }))
-      /**
-       * TODO
-       * - empty cart
-       * - create an order
-       */
 
     } catch (error) {
       console.log(`Checkout:buy=>>> Failed to load products by arrival: ${error}`)
@@ -93,6 +99,15 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
       
         (state.clientToken !== null && products.length > 0) ? (
           <React.Fragment>
+            <div className="gorm-group mb-3">
+              <label className="text-muted">Deliver address: </label>
+              <textarea 
+                className="form-control"
+                onChange={handleAddress}
+                value={state.address}
+                placeholder="Type your delivery address here..."
+              />
+            </div>
             <DropIn 
               options={{
                 authorization: state.clientToken.clientToken,
@@ -131,6 +146,10 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
     if (state.redirectUser) {
       return  <Redirect to='/shop' />
     }
+  }
+
+  const handleAddress = (event: any) => {
+    setState({...state, address: event.target.value })
   }
 
   return (

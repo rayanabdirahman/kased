@@ -9,7 +9,7 @@ import { IExtendedRequest } from '../../custom';
 
 export default class OrderController {
   public create = (req: express.Request, res: express.Response) => {
-    logger.debug(`Create order: ${req.body}`);
+    console.log(`Create order: ${req.body}`, req.body);
   }
 
 }

@@ -22,7 +22,7 @@ const userController = new UserController(); // TODO: MOVE RESUED USERID METHOD 
  * process payment
  * @post /braintree/token/:userId
  */
-router.post('/payment/:userId',
+router.post('/create/:userId',
   authController.authGuard,
   authController.isAuth,
   orderController.create
