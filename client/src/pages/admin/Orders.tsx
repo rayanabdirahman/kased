@@ -6,6 +6,7 @@ import Alert from "../../components/Alert"
 import { AlertEnum } from '../../domain/enums'
 import { Link } from 'react-router-dom'
 import { getOrders } from '../../api/order'
+import moment from 'moment'
 
 const OrdersPage: React.FunctionComponent = () => {
   // sets initial state for component
@@ -42,9 +43,31 @@ const OrdersPage: React.FunctionComponent = () => {
       <div className="row">
       <div className="col-md-8 offset-md-2">
         {/* check if orders have been made */}
-        { orders.length < 1 ? <h4>No orders yet</h4> : null }
+        { orders.length > 0 ? 
+          <h1 className="text-danger display-2">Total orders: { orders.length}</h1> : 
+          <h1 className="text-danger display-2">No orders</h1> 
+        }
 
-        {JSON.stringify(orders)}
+        {orders.map((order: any, index: number) => {
+          return (
+            <div key={`order-item--${index}`} className="mt-5" style={{borderBottom: "5px solid indigo"}}>
+              <h2 className="mb-5">
+                <span className="bg-primary">Order Id: ${order._id}</span>
+              </h2>
+
+              <ul className="list-group mb-2">
+                <li className="list-group-item">Status: {order.status}</li>
+                <li className="list-group-item">Transaction ID: {order.transaction_id}</li>
+                <li className="list-group-item">Amount: {order.amount}</li>
+                <li className="list-group-item">Ordered by: {order.user.firstName}</li>
+                <li className="list-group-item">Ordered on: {moment(order.createdAt).fromNow()}</li>
+                <li className="list-group-item">Delivery address: {order.address}</li>
+              </ul>
+              
+              <h3 className="mt-4 mb-4 font-italic">Total products in this order: {order.products.length}</h3>
+            </div>
+          )
+        })}
       </div>
 
       </div>

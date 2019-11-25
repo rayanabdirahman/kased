@@ -7,7 +7,7 @@ export default class ProductService {
   public async list() {
     return await Order.find()
                         .select('-photo')
-                        .populate('user', '_id name address')
+                        .populate('user', '_id firstName lastName address')
                         .sort('-created');
   }
 
