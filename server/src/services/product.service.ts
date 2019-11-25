@@ -87,4 +87,17 @@ export default class ProductService {
   public async findById(id: string) {
     return await Product.findById(id).populate('category');
   }
+
+  public async updateStockQuantity(products: any) {
+    const bulkOptions = products.map((item: any) => {
+      return {
+        updateOne: {
+          filter: {_id: item._id},
+          update: { $inc: {quantity: -item.count, sold: +item.count}}
+        }
+      }
+    });
+
+    return await Product.bulkWrite(bulkOptions);
+  }
 }

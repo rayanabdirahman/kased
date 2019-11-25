@@ -346,6 +346,19 @@ export default class ProductController {
     }
   }
 
+  public updateStockQuantity = async (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
+    try {
+      // update product stock quantity
+      await this.productService.updateStockQuantity(req.body.order.products);
+
+      next();
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<ProductController.updateStockQuantity>>> Could not update product: ${message}`);
+      res.status(400).send({ error: message });
+    }
+  }
+
   public photo =  async (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
     if (req.product) {
       if (req.product.photo.data) {

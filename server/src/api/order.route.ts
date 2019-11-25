@@ -2,9 +2,11 @@ import { Router } from 'express';
 import OrderController from '../controllers/order/order.controller';
 import AuthController from '../controllers/auth/auth.controller';
 import UserController from '../controllers/user/user.controller';
+import ProductController from '../controllers/product/product.controller';
 
 const router = Router();
 const orderController = new OrderController();
+const productController = new ProductController(); // TODO: MOVE RESUED AUTH METHODS INTO MIDDLEWARE FOLDER
 const authController = new AuthController(); // TODO: MOVE RESUED AUTH METHODS INTO MIDDLEWARE FOLDER
 const userController = new UserController(); // TODO: MOVE RESUED USERID METHOD INTO MIDDLEWARE FOLDER
 
@@ -26,6 +28,7 @@ router.post('/create/:userId',
   authController.authGuard,
   authController.isAuth,
   orderController.addOrderToHistory,
+  productController.updateStockQuantity,
   orderController.create
 );
 

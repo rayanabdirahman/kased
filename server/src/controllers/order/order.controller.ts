@@ -60,4 +60,35 @@ export default class OrderController {
     }
   }
 
+  // add order details to user's history
+  public updateStockQuantity =  async (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
+    try {
+      const history: any = [];
+
+      req.body.order.products.forEach((item: any) => {
+        history.push({
+          _id: item._id,
+          name: item.name,
+          description: item.description,
+          category: item.category,
+          quantity: item.count,
+          transaction_id: req.body.order.transaction_id,
+          amount: req.body.order.amount
+        });
+
+      });
+
+      if (req.profile) {
+        // find user by Id and update their order history
+        await this.orderService.addOrderToHistory(req.profile._id, history);
+      }
+
+      next();
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<OrdedrController.addOrderToHistory>>> could not update user's order history: ${message}`);
+      res.status(400).send({ error: message });
+    }
+  }
+
 }
