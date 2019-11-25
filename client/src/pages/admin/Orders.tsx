@@ -38,6 +38,15 @@ const OrdersPage: React.FunctionComponent = () => {
     loadOrders()
   },[])
 
+  const showInput = (key: string, value: any) => (
+    <div className="input-group mb-2 mr-sm-2">
+      <div className="input-group-prepend">
+        <div className="input-group-text">{key}</div>
+      </div>
+      <input type="text" value={value} className="form-control" readOnly/>
+    </div>
+  )
+
   return (
     <Layout title="Orders" description={`${user.firstName}, you can manage your orders here`} >
       <div className="row">
@@ -50,7 +59,7 @@ const OrdersPage: React.FunctionComponent = () => {
 
         {orders.map((order: any, index: number) => {
           return (
-            <div key={`order-item--${index}`} className="mt-5" style={{borderBottom: "5px solid indigo"}}>
+            <div key={`order--${index}`} className="mt-5" style={{borderBottom: "5px solid indigo"}}>
               <h2 className="mb-5">
                 <span className="bg-primary">Order Id: ${order._id}</span>
               </h2>
@@ -65,6 +74,15 @@ const OrdersPage: React.FunctionComponent = () => {
               </ul>
               
               <h3 className="mt-4 mb-4 font-italic">Total products in this order: {order.products.length}</h3>
+              {order.products.map((product: any, index: number) => (
+                <div key={`order-product-item--${index}`} className="mb-4" style={{ padding: '20px', border: "1px solid indigo"}}>
+                  {showInput('Product name', product.name)}
+                  {showInput('Product price', product.price)}
+                  {showInput('Product total', product.count)}
+                  {showInput('Product Id', product._id)}
+                </div>
+              ))}
+
             </div>
           )
         })}
