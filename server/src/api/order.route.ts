@@ -25,6 +25,7 @@ const userController = new UserController(); // TODO: MOVE RESUED USERID METHOD 
 router.post('/create/:userId',
   authController.authGuard,
   authController.isAuth,
+  orderController.addOrderToHistory,
   orderController.create
 );
 
