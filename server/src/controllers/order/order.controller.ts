@@ -12,6 +12,23 @@ export default class OrderController {
     this.orderService = new OrderService();
   }
 
+  // Find all orders
+  public list =  async (req: express.Request, res: express.Response) => {
+    try {
+
+      // list all categories
+      const orders = await this.orderService.list();
+
+      return res.status(200).json(orders);
+
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<OrderController.list>>> ${ErrorMessage.LIST_ORDER}: ${message}`);
+      res.send({ error: message });
+    }
+  }
+
+
   public create = async (req: IExtendedRequest, res: express.Response) => {
     try {
       // set user for oder

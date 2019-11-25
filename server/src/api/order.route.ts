@@ -20,6 +20,9 @@ const userController = new UserController(); // TODO: MOVE RESUED USERID METHOD 
 //   braintreeController.generateToken
 // );
 
+// list all products
+router.get('/:userId', orderController.list);
+
 /**
  * process payment
  * @post /braintree/token/:userId

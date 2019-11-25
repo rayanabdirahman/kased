@@ -3,6 +3,14 @@ import { Order } from '../data_access/models/order.model';
 import User from '../data_access/models/user.model';
 
 export default class ProductService {
+  // Find all orders
+  public async list() {
+    return await Order.find()
+                        .select('-photo')
+                        .populate('user', '_id name address')
+                        .sort('-created');
+  }
+
   public async create(model: any) {
     // create new order instance
     const order = new Order(model);
