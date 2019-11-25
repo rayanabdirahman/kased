@@ -79,7 +79,7 @@ const Checkout: React.FunctionComponent<IProps> = ({ products }) => {
       createOrder(userId, token, orderData)
 
       // set state for successful transaction
-      setState({...state, success: response.success})
+      setState({...state, success: true})
 
       // empty cart and redirect user to shop page
       emptyCart(() => setState({...state, redirectUser: true, loading: false }))

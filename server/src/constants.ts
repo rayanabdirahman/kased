@@ -22,6 +22,7 @@ export enum ErrorMessage {
   SEARCH_PRODUCT = 'Unable to find any products matching your search query',
   LISTSEARCH_PRODUCT = 'Unable to find any products matching your search query',
   BRAINTREE_CLIENT_TOKEN = 'Unable to generate braintree client token',
+  CREATE_ORDER = 'Unable to create order',
 }
 
 export enum SuccessMessage {
