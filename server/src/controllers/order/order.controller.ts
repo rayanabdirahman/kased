@@ -28,6 +28,22 @@ export default class OrderController {
     }
   }
 
+  // get a list of status values for orders
+  public statusValues =  async (req: express.Request, res: express.Response) => {
+    try {
+
+      // list all status values for orders
+      const orders = await this.orderService.statusValues();
+
+      return res.status(200).json(orders);
+
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<OrderController.list>>> ${ErrorMessage.LIST_ORDER}: ${message}`);
+      res.send({ error: message });
+    }
+  }
+
 
   public create = async (req: IExtendedRequest, res: express.Response) => {
     try {

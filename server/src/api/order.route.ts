@@ -10,18 +10,11 @@ const productController = new ProductController(); // TODO: MOVE RESUED AUTH MET
 const authController = new AuthController(); // TODO: MOVE RESUED AUTH METHODS INTO MIDDLEWARE FOLDER
 const userController = new UserController(); // TODO: MOVE RESUED USERID METHOD INTO MIDDLEWARE FOLDER
 
-// /**
-//  * get braintree token for user
-//  * @get /braintree/token/:userId
-//  */
-// router.get('/token/:userId',
-//   authController.authGuard,
-//   authController.isAuth,
-//   braintreeController.generateToken
-// );
-
 // list all products
 router.get('/:userId', orderController.list);
+
+// list all products
+router.get('/status-values/:userId', orderController.statusValues);
 
 /**
  * process payment

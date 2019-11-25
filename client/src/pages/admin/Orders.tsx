@@ -5,12 +5,13 @@ import { createProduct } from '../../api/product'
 import Alert from "../../components/Alert"
 import { AlertEnum } from '../../domain/enums'
 import { Link } from 'react-router-dom'
-import { getOrders } from '../../api/order'
+import { getOrders, getOrderStatusValues } from '../../api/order'
 import moment from 'moment'
 
 const OrdersPage: React.FunctionComponent = () => {
   // sets initial state for component
   const [orders, setOrders] = React.useState<any>([])
+  const [statusValues, setStatusValues] = React.useState<any>([])
   const [error, setError] = React.useState<any>('')
 
   // destructure user and token information from isAuthenticated response
@@ -32,10 +33,27 @@ const OrdersPage: React.FunctionComponent = () => {
     }
   }
 
+  const loadStatusValues = async () => {
+    try {
+      const response = await getOrderStatusValues(user._id, token)
+
+      // check for errors
+      if (response.error) {
+        setError(response.error); 
+      }
+
+      setStatusValues(response)
+
+    } catch (error) {
+      console.log(`OrdersPage:loadOrders>>>>Failed to load list of orders: ${error}`)
+    }
+  }
+
   // lifecycle method to run everytime the component mounts
   React.useEffect(() => {
-    // run loadOrders function to get list of orders
+    // run required function to get list of orders and status values for orders
     loadOrders()
+    loadStatusValues()
   },[])
 
   const showInput = (key: string, value: any) => (
@@ -44,6 +62,24 @@ const OrdersPage: React.FunctionComponent = () => {
         <div className="input-group-text">{key}</div>
       </div>
       <input type="text" value={value} className="form-control" readOnly/>
+    </div>
+  )
+
+  const handleStatusChange = (event: any, orderId: any) => {
+    console.log('update order status: ')
+  }
+
+  const showStatus = (order: any) => (
+    <div className="form-group">
+      <h3 className="mark mb-4">Status: {order.status}</h3>
+      <select onChange={(event) => handleStatusChange(event, order._id)} className="form-control">
+        <option value="">Update order status</option>
+        {
+          statusValues.map((status: any, index: number) => (
+            <option key={`status-value--${index}`} value={status}>{status}</option>
+          ))
+        }
+      </select>
     </div>
   )
 
@@ -65,7 +101,7 @@ const OrdersPage: React.FunctionComponent = () => {
               </h2>
 
               <ul className="list-group mb-2">
-                <li className="list-group-item">Status: {order.status}</li>
+                <li className="list-group-item">Status: {showStatus(order)}</li>
                 <li className="list-group-item">Transaction ID: {order.transaction_id}</li>
                 <li className="list-group-item">Amount: {order.amount}</li>
                 <li className="list-group-item">Ordered by: {order.user.firstName}</li>

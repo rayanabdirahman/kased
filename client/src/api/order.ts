@@ -2,6 +2,7 @@ import { API_BASE_URL } from "../config";
 
 const API_CREATE_ORDER = `${API_BASE_URL}/order/create`
 const API_GET_ORDERS = `${API_BASE_URL}/order`
+const API_GET_STATUS_VALUES = `${API_BASE_URL}/order/status-values`
 
 /**
  * Create order
@@ -49,6 +50,30 @@ export const getOrders = async(userId: string, token: string,) => {
 
   } catch(error) {
     console.log(error)
-    console.error(`API CALL:getCategories=>>>>>> Error when getting a list of all categories: ${error}`)
+    console.error(`API CALL:getOrders=>>>>>> Error when getting a list of all orders: ${error}`)
+  }
+}
+
+/**
+ * Return a list of all status values for orders
+ * @param { string } userId - stores logged in user id
+ * @param { string } token - stores user bearer token
+ */
+export const getOrderStatusValues = async(userId: string, token: string) => {
+  try {
+    let response = await fetch(`${API_GET_STATUS_VALUES}/${userId}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`API CALL:getOrderStatusValues=>>>>>> Error when getting a list of all status values for orders: ${error}`)
   }
 }

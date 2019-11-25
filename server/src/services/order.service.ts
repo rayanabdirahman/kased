@@ -11,6 +11,11 @@ export default class ProductService {
                         .sort('-created');
   }
 
+  // return a list of all status values for orders
+  public async statusValues() {
+    return await Order.schema.path('status').enumValues;
+  }
+
   public async create(model: any) {
     // create new order instance
     const order = new Order(model);
