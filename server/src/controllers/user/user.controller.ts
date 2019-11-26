@@ -72,5 +72,26 @@ export default class UserController {
     }
   }
 
+  /**
+   * Return user's purchase history
+   */
+  public purchaseHistory = async (req: IExtendedRequest, res: express.Response) => {
+    try {
+      if (req.profile) {
+        const userId = req.profile.id;
+
+        // find orders by user
+        const orders = await this.userService.findOrdersByUser(userId);
+
+        return res.status(200).json(orders);
+
+      }
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<UserController.purchaseHistory>>>: ${message}`);
+      res.status(400).send({ error: message });
+    }
+  }
+
 
 }

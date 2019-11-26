@@ -13,6 +13,12 @@ const authController = new AuthController();
 router.get('/:userId', authController.authGuard, authController.isAuth, userController.read);
 
 /**
+ * get order history for a user
+ * @get /user/orders/:userId
+ */
+router.get('/orders/:userId', authController.authGuard, authController.isAuth, userController.purchaseHistory);
+
+/**
  * update user information
  * @put /user/:userId
  */
