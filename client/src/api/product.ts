@@ -39,7 +39,7 @@ export const createProduct = async(userId: string, token: string, product:  any)
  * @param { string } token - stores user bearer token
  * @param { ICreateCategoryModel } category - stores required category details for creating a new category
  */
-export const getProducts = async(sortBy: string) => {
+export const getProductsToSort = async(sortBy: string) => {
   try {
     let response = await fetch(`${API_GET_PRODUCTS}/?sortBy=${sortBy}&order=desc&limit=6`, {
       method: 'GET',
@@ -49,7 +49,7 @@ export const getProducts = async(sortBy: string) => {
 
   } catch(error) {
     console.log(error)
-    console.error(`API CALL:getProducts=>>>>>> Error when getting a list of all products: ${error}`)
+    console.error(`API CALL:getProductsToSort=>>>>>> Error when getting a list of all products: ${error}`)
   }
 }
 
@@ -137,5 +137,75 @@ export const getRelatedProducts = async(productId: string) => {
   } catch(error) {
     console.log(error)
     console.error(`API CALL:getRelatedProducts=>>>>>> Error when getting a list of all products: ${error}`)
+  }
+}
+
+/**=================================================
+ * Admin routes to perform CRUD
+=================================================*/
+
+// Return a list of all products
+export const getProducts = async() => {
+  try {
+    let response = await fetch(`${API_GET_PRODUCTS}/`, {
+      method: 'GET',
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`API CALL:getProducts=>>>>>> Error when getting a list of all products: ${error}`)
+  }
+}
+
+/**
+ * Delete product
+ * @param { string } productId - stores product id
+ * @param { string } userId - stores logged in user id
+ * @param { string } token - stores user bearer token
+ */
+export const deleteProduct = async(productId: string, userId: string, token: string) => {
+  try {
+    let response = await fetch(`${API_GET_PRODUCTS}/${productId}/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`API CALL:deleteProduct=>>>>>> Error when deleting a product: ${error}`)
+  }
+}
+
+/**
+ * Update product
+ * @param { string } productId - stores product id
+ * @param { string } userId - stores logged in user id
+ * @param { string } token - stores user bearer token
+ * @param { any } product - stores updated product information
+ */
+export const updateProduct = async(productId: string, userId: string, token: string, product: any) => {
+  try {
+    let response = await fetch(`${API_GET_PRODUCTS}/${productId}/${userId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: product
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`API CALL:updateProduct=>>>>>> Error when updating a product: ${error}`)
   }
 }

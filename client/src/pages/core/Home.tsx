@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../../components/Layout';
-import { getProducts } from '../../api/product';
+import { getProductsToSort } from '../../api/product';
 import Card from '../../components/Card';
 import Search from '../../components/Search';
 
@@ -11,7 +11,7 @@ const HomePage: React.FunctionComponent = () => {
 
   const loadProductsBySell = async() => {
     try {
-      const response = await getProducts('sold')
+      const response = await getProductsToSort('sold')
 
       // check for errors
       if (response.error) {
@@ -27,7 +27,7 @@ const HomePage: React.FunctionComponent = () => {
 
   const loadProductsByArrival = async() => {
     try {
-      const response = await getProducts('createdAt')
+      const response = await getProductsToSort('createdAt')
 
       // check for errors
       if (response.error) {
