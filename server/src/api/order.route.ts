@@ -17,8 +17,18 @@ router.get('/:userId', orderController.list);
 router.get('/status-values/:userId', orderController.statusValues);
 
 /**
+ * list all products
+ * @put /order/:orderId/status/:userId
+ */
+router.put('/:orderId/status/:userId',
+  authController.authGuard,
+  authController.isAuth,
+  orderController.addOrderToHistory
+);
+
+/**
  * process payment
- * @post /braintree/token/:userId
+ * @post /order/create/:userId
  */
 router.post('/create/:userId',
   authController.authGuard,
@@ -33,6 +43,7 @@ router.post('/create/:userId',
  * TODO: MOVE THIS INTO A MIDDLEWARE FODLER
  */
 router.param('userId', userController.findById);
+router.param('orderId', orderController.findById);
 
 
 export default router;

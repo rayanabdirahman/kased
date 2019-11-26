@@ -124,4 +124,29 @@ export default class OrderController {
     }
   }
 
+
+  // Find order by ID and store details in req.order
+  public findById = async (req: IExtendedRequest, res: express.Response, next: express.NextFunction, id: string) => {
+    try {
+
+      // find order by Id
+      const order = await this.orderService.findById(id);
+      if (!order) {
+        logger.error(`<<<OrderController.findById>>> ${ErrorMessage.FIND_ORDER_BY_ID}`);
+
+        return res.status(400).json({error: ErrorMessage.FIND_ORDER_BY_ID});
+      }
+
+      // add order details to request object
+      req.order = order;
+
+      next();
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<ProductController.findById>>>: ${message}`);
+      res.status(400).send({ error: message });
+    }
+  }
+
+
 }

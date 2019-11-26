@@ -5,4 +5,5 @@ export interface IExtendedRequest extends express.Request {
   profile?: { [key: string]: any };
   product?: { [key: string]: any };
   category?: { [key: string]: any };
+  order?: { [key: string]: any };
 }

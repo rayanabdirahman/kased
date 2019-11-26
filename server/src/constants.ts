@@ -24,6 +24,7 @@ export enum ErrorMessage {
   BRAINTREE_CLIENT_TOKEN = 'Unable to generate braintree client token',
   CREATE_ORDER = 'Unable to create order',
   LIST_ORDER = 'Unable to list all orders',
+  FIND_ORDER_BY_ID = 'Unable to find order by this ID',
 }
 
 export enum SuccessMessage {

@@ -32,4 +32,8 @@ export default class ProductService {
       { $push: { history: model }},
       { new: true }).select('-password');
   }
+
+  public async findById(id: string) {
+    return await Order.findById(id).populate('products.product', 'name price');
+  }
 }
