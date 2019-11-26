@@ -1,10 +1,9 @@
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL, JWT_COOKIE_NAME } from "../config";
 import { ILoginModel, ISignUpModel } from "../domain/interfaces";
 
 const API_LOGIN = `${API_BASE_URL}/auth/login`
 const API_LOGOUT = `${API_BASE_URL}/auth/logout`
 const API_SIGNUP = `${API_BASE_URL}/auth/signup`
-const COOKIE_NAME = 'jwtToken';
 
 /**
  * Log user in by sending state values to backend api
@@ -45,7 +44,7 @@ export const logout = async(next: Function) => {
     }
     
     // remove user details from local storage
-    localStorage.removeItem(COOKIE_NAME)
+    localStorage.removeItem(JWT_COOKIE_NAME)
 
     // execute callback function
     next()
@@ -99,7 +98,7 @@ export const signUp = async(user: ISignUpModel) => {
 export const authenticate = (data: object, next: Function) => {
   // check if local storage is available on browser
   if (typeof window !== 'undefined') {
-    localStorage.setItem(COOKIE_NAME, JSON.stringify(data))
+    localStorage.setItem(JWT_COOKIE_NAME, JSON.stringify(data))
     next()
   }
 }
@@ -110,8 +109,8 @@ export const authenticate = (data: object, next: Function) => {
 export const isAuthenticated = () => {
   if (typeof window !== 'undefined') {
     // check if user details is stored in localstorage
-    if (localStorage.getItem(COOKIE_NAME)) {
-      return JSON.parse(`${localStorage.getItem(COOKIE_NAME)}`)
+    if (localStorage.getItem(JWT_COOKIE_NAME)) {
+      return JSON.parse(`${localStorage.getItem(JWT_COOKIE_NAME)}`)
     }
   }
 
