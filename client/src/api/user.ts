@@ -53,6 +53,30 @@ export const updateUserInformation = async(userId: string, token: string, userIn
 }
 
 /**
+ * get user's purchase history
+ * @param { string } userId - stores logged in user id
+ * @param { string } token - stores user bearer token
+ */
+export const getUserPurchaseHistory = async(userId: string, token: string) => {
+  try {
+    let response = await fetch(`${API_USER_ROUTE}/orders/${userId}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`API CALL:getUserPurchaseHistory=>>>>>> Error when fetching user's purchase history: ${error}`)
+  }
+}
+
+/**
  * Update user information in cookie
  * @param { any } data - stores updated user information
  * @param { Function } next - stores callback function
