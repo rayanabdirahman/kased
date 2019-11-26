@@ -16,6 +16,14 @@ export default class ProductService {
     return await Order.schema.path('status').enumValues;
   }
 
+  // return a list of all status values for orders
+  public async updateStatus(id: string, status: any) {
+    return await Order.update(
+      {_id: id},
+      {$set: {status}}
+    );
+  }
+
   public async create(model: any) {
     // create new order instance
     const order = new Order(model);

@@ -33,13 +33,32 @@ export default class OrderController {
     try {
 
       // list all status values for orders
-      const orders = await this.orderService.statusValues();
+      const statusValues = await this.orderService.statusValues();
 
-      return res.status(200).json(orders);
+      return res.status(200).json(statusValues);
 
     } catch (error) {
       const message = error.message || error;
-      logger.error(`<<<OrderController.list>>> ${ErrorMessage.LIST_ORDER}: ${message}`);
+      logger.error(`<<<OrderController.statusValues>>> ${ErrorMessage.LIST_ORDER}: ${message}`);
+      res.send({ error: message });
+    }
+  }
+
+  // update order status
+  public updateStatus =  async (req: express.Request, res: express.Response) => {
+    try {
+      // store order id and status of order
+      const orderId = req.body.orderId;
+      const status  = req.body.status;
+
+      // return updated order
+      const order = await this.orderService.updateStatus(orderId, status);
+
+      return res.status(200).json(order);
+
+    } catch (error) {
+      const message = error.message || error;
+      logger.error(`<<<OrderController.updateStatus>>> ${ErrorMessage.UPDATE_STATUS_OF_ORDER}: ${message}`);
       res.send({ error: message });
     }
   }
@@ -128,7 +147,6 @@ export default class OrderController {
   // Find order by ID and store details in req.order
   public findById = async (req: IExtendedRequest, res: express.Response, next: express.NextFunction, id: string) => {
     try {
-
       // find order by Id
       const order = await this.orderService.findById(id);
       if (!order) {

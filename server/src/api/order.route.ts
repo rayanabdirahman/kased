@@ -17,13 +17,14 @@ router.get('/:userId', orderController.list);
 router.get('/status-values/:userId', orderController.statusValues);
 
 /**
- * list all products
+ * update order status
  * @put /order/:orderId/status/:userId
  */
 router.put('/:orderId/status/:userId',
   authController.authGuard,
   authController.isAuth,
-  orderController.addOrderToHistory
+  authController.isAdmin,
+  orderController.updateStatus
 );
 
 /**

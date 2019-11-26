@@ -77,3 +77,30 @@ export const getOrderStatusValues = async(userId: string, token: string) => {
     console.error(`API CALL:getOrderStatusValues=>>>>>> Error when getting a list of all status values for orders: ${error}`)
   }
 }
+
+/**
+ * Update status values for an order
+ * @param { string } userId - stores logged in user id
+ * @param { string } token - stores user bearer token
+ * @param { string } orderId - stores order id
+ * @param { string } status - stores current order status
+ */
+export const updateOrderStatus = async(userId: string, token: string, orderId: string, status: string) => {
+  try {
+    let response = await fetch(`${API_GET_ORDERS}/${orderId}/status/${userId}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ status, orderId })
+    })
+
+    return await response.json();
+
+  } catch(error) {
+    console.log(error)
+    console.error(`API CALL:updateOrderStatus=>>>>>> Error when updating status for an order: ${error}`)
+  }
+}

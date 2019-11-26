@@ -5,7 +5,7 @@ import { createProduct } from '../../api/product'
 import Alert from "../../components/Alert"
 import { AlertEnum } from '../../domain/enums'
 import { Link } from 'react-router-dom'
-import { getOrders, getOrderStatusValues } from '../../api/order'
+import { getOrders, getOrderStatusValues, updateOrderStatus } from '../../api/order'
 import moment from 'moment'
 
 const OrdersPage: React.FunctionComponent = () => {
@@ -65,8 +65,23 @@ const OrdersPage: React.FunctionComponent = () => {
     </div>
   )
 
-  const handleStatusChange = (event: any, orderId: any) => {
-    console.log('update order status: ')
+  // update status for order
+  const handleStatusChange = async(event: any, orderId: any) => {
+    try {
+      const response = await updateOrderStatus(user._id, token, orderId, event.target.value)
+
+      // check for errors
+      if (response.error) {
+        console.log('ERRR: ', response.error)
+        setError(response.error); 
+      }
+
+      // load a new batch of orders
+      loadOrders()
+
+    } catch (error) {
+      console.log(`OrdersPage:handleStatusChange>>>>Failed to update status for order: ${error}`)
+    }
   }
 
   const showStatus = (order: any) => (
