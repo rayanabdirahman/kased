@@ -147,7 +147,7 @@ export const getRelatedProducts = async(productId: string) => {
 // Return a list of all products
 export const getProducts = async() => {
   try {
-    let response = await fetch(`${API_GET_PRODUCTS}/`, {
+    let response = await fetch(`${API_GET_PRODUCTS}?limit=undefined`, {
       method: 'GET',
     })
 
@@ -165,7 +165,7 @@ export const getProducts = async() => {
  * @param { string } userId - stores logged in user id
  * @param { string } token - stores user bearer token
  */
-export const deleteProduct = async(productId: string, userId: string, token: string) => {
+export const removeProduct = async(productId: string, userId: string, token: string) => {
   try {
     let response = await fetch(`${API_GET_PRODUCTS}/${productId}/${userId}`, {
       method: 'DELETE',
@@ -180,7 +180,7 @@ export const deleteProduct = async(productId: string, userId: string, token: str
 
   } catch(error) {
     console.log(error)
-    console.error(`API CALL:deleteProduct=>>>>>> Error when deleting a product: ${error}`)
+    console.error(`API CALL:removeProduct=>>>>>> Error when deleting a product: ${error}`)
   }
 }
 

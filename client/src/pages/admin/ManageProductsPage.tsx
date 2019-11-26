@@ -1,7 +1,7 @@
 import React from 'react'
 import { isAuthenticated } from '../../api/auth'
 import Layout from '../../components/Layout'
-import { createProduct } from '../../api/product'
+import { getProducts, removeProduct } from '../../api/product'
 import Alert from "../../components/Alert"
 import { AlertEnum } from '../../domain/enums'
 import { Link } from 'react-router-dom'
@@ -9,190 +9,70 @@ import { getCategories } from '../../api/category'
 
 const ManageProductsPage: React.FunctionComponent = () => {
   // sets initial state for component
-  const [state, setstate] = React.useState<any>({
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    categories: [],
-    shipping: '',
-    quantity: '',
-    photo: ' ',
-    sold: '',
-    error: '',
-    loading: false,
-    createdProduct: '',
-    redirectToReferrer: false,
-    formData: ''
-  })
-
-  // destruct required values from state
-  const { 
-    name,
-    description,
-    price,
-    category,
-    categories,
-    shipping,
-    quantity,
-    error,
-    loading,
-    createdProduct,
-    redirectToReferrer,
-    formData 
-  } = state
+  const [products, setProducts] = React.useState<any>([])
+  const [error, setError] = React.useState<any>(false)
 
   // destructure user and token information from isAuthenticated response
   const { user, token } = isAuthenticated()
 
-  // get a list of all categories and set formData
-  const onInit = async() => {
+  const loadProducts = async() => {
     try {
-      const response = await getCategories()
+      const response = await getProducts()
 
       // check for errors
       if (response.error) {
-        setstate({...state, error: response.error, success: false});
-        throw new Error(response.statusText);
+        return setError(response.statusText);
       }
 
-      setstate({...state, categories: response, formData: new FormData()})
+      setProducts(response)
 
     } catch (error) {
-      console.log(`Failed to init function on product page: ${error}`)
+      console.log(`loadProducts=>>> Failed to load products: ${error}`)
     }
-    
+  }
+
+  const deleteProduct = async (productId: string) => {
+    try {
+      const response = await removeProduct(productId, user._id, token)
+
+      // check for errors
+      if (response.error) {
+        return setError(response.statusText);
+      }
+
+      // load new batch of products
+      loadProducts()
+
+    } catch (error) {
+      console.log(`deleteProduct=>>> Failed to delete product: ${error}`)
+    }
   }
 
   // lifecycle method to run everytime the component mounts
   React.useEffect(() => {
-    // run onInit function to get list of categories and to set formData
-    onInit()
+    // run loadProducts function to get list of all products
+    loadProducts()
   },[])
-
-  /**
-   * Listens for changes on input fields
-   * @param { string } name - stores form name
-   * @param event - listens for onChange event
-   */
-  const handleChange = (name: string) => (event: any) => {
-    // check if photo is being uploaded before setting state
-    const value = name === 'photo' ? event.target.files[0] : event.target.value
-
-    // set formData values
-    formData.set(name, value)
-
-    // set state
-    setstate({...state, error: false, [name]: value })
-  }
-
-  /**
-   * Listens for form submitions
-   * Passes required signup fields to signUp function
-   * @param event - listens for onClcik event
-   */
-  const handleSubmit = async(event: any) => {
-    try {
-      // prevent default event behaviour
-      event.preventDefault()
-
-      setstate({...state, error: '', loading: true})
-
-      // pass state values to backend api
-      const response = await  createProduct(user._id, token, formData)
-
-      // check for errors
-      if (response.error) {
-        setstate({...state, error: response.error, success: false});
-        throw new Error(response.statusText);
-      }
-
-      setstate({...state, photo: '', name: '', description:'', email: '', price: '', quantity: '', loading: false, createdProduct: response.name })
-
-    } catch(error) {
-      console.error(`ManageProductsPage:handleSubmit=>>>>>> Error when submiting product info: ${error}`)
-    }
-  }
-
-  // form mark up
-  const form = () => (
-    <form className="mb-3" onSubmit={handleSubmit}>
-      <h4>Post Photo</h4>
-      <div className="form-group">
-        <label className="btn btn-secondary" htmlFor="">
-          <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*" />
-        </label>
-      </div>
-
-      <div className="form-group">
-        <label className="text-muted" htmlFor="">Name</label>
-        <input onChange={handleChange('name')} value={name} className="form-control" type="text" />
-      </div> 
-
-      <div className="form-group">
-        <label className="text-muted" htmlFor="">description</label>
-        <textarea onChange={handleChange('description')} value={description} className="form-control" />
-      </div> 
-
-      <div className="form-group">
-        <label className="text-muted" htmlFor="">price</label>
-        <input onChange={handleChange('price')} value={price} className="form-control" type="number" />
-      </div> 
-
-      <div className="form-group">
-        <label className="text-muted" htmlFor="">category</label>
-        <select onChange={handleChange('category')} className="form-control">
-          <option value="">Select category</option>
-
-          {
-            // check if categories array is filled
-            categories && categories.map((category: any, index: number) => (
-              <option key={`category--${index}`} value={category._id}>{category.name}</option>
-            ))
-          }
-        </select>
-      </div> 
-
-      <div className="form-group">
-        <label className="text-muted" htmlFor="">shipping</label>
-        <select onChange={handleChange('shipping')} className="form-control">
-          <option value="">Select shipping</option>
-          <option value="false">no</option>
-          <option value="true">yes</option>
-        </select>
-      </div> 
-
-      <div className="form-group">
-        <label className="text-muted" htmlFor="">quantity</label>
-        <input onChange={handleChange('quantity')} value={quantity} className="form-control" type="number" />
-      </div> 
-
-      <button className="btn btn-primary" type="submit">Create product</button>
-    </form>
-  )
-
-
-
 
   return (
     <Layout title="Manage products" description={`Welcome back ${user.firstName}`} >
       <div className="row">
-        <div className="col-md-8 offset-md-2">
+        <div className="col-12">
+          <h2 className="text-center">Total products: {products.length}</h2>
+          <hr />
+          <ul className="list-group">
+            {products.map((product: any, index: number) => (
+              <li key={`manage-product--${index}`} className="list-group-item d-flex justify-content-between align-items-center">
+                <strong>{product.name}</strong>
+                <Link to={`/admin/product/update/${product._id}`}>
+                  <span className="badge badge-warning badge-pill">Update</span>
+                  <span onClick={() => deleteProduct(product._id)} className="badge badge-danger badge-pill">Delete</span>
+                </Link>
+              </li>
+            ))}
 
-          {
-            loading? <Alert status={AlertEnum.INFO} message={`Loading...`} displayWhen={loading}/> : null
-          }
 
-          {
-            createdProduct ? <Alert status={AlertEnum.SUCCESS} message={`Product ${name} was successfully created!`} displayWhen={createdProduct}/>
-            : <Alert status={AlertEnum.ERROR} message={`${error}`} displayWhen={error}/> 
-          }
-
-          {form()}
-
-          <div className="mt-5">
-            <Link to="/admin/dashboard" className="text-warning">Back to dashboad</Link>
-          </div>
+          </ul>
         </div>
       </div>
     </Layout>
