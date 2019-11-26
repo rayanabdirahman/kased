@@ -3,7 +3,7 @@ import Layout from '../../components/Layout'
 import { isAuthenticated } from '../../api/auth';
 import { Link } from 'react-router-dom';
 
-const UserDashboardPage: React.FunctionComponent = () => {
+const UserProfilePage: React.FunctionComponent = () => {
   // destructure user information from isAuthenticated response
   const {user} = isAuthenticated()
   const name = `${user.firstName} ${user.lastName}`
@@ -13,7 +13,7 @@ const UserDashboardPage: React.FunctionComponent = () => {
       <h3 className="card-header">User Links</h3>
       <ul className="list-group">
         <li className="list-group-item"> <Link to="/cart">My Cart</Link></li>
-        <li className="list-group-item"><Link to={`/profile/${user._id}`}>Update profile</Link></li>
+        <li className="list-group-item"><Link to="/profile/update">Update profile</Link></li>
       </ul>
     </div>
   )
@@ -39,8 +39,8 @@ const UserDashboardPage: React.FunctionComponent = () => {
   )
 
   return (
-    <Layout title="User Dashboard" description={`Welcome back ${name}`} >
-      <div className="row">
+    <Layout title="User Profile page" description={`Welcome back ${name}`} >
+      {/* <div className="row">
         <div className="col-3">
           {userLinks()}
         </div>
@@ -48,11 +48,11 @@ const UserDashboardPage: React.FunctionComponent = () => {
           {userInfo()}
           {userHistory()}
         </div>
-      </div>
+      </div> */}
 
       
     </Layout>
   )
 }
 
-export default UserDashboardPage;
+export default UserProfilePage;

@@ -6,6 +6,7 @@ import HomePage from '../pages/core/Home';
 import PrivateRoute from './private.route';
 import AdminRoute from './admin.route';
 import UserDashboardPage from '../pages/user/Dashboard';
+import UserProfilePage from '../pages/user/Profile';
 import AdminDashboardPage from '../pages/admin/Dashboard';
 import CreateCategoryPage from '../pages/admin/CreateCategory';
 import CreateProductPage from '../pages/admin/CreateProduct';
@@ -25,6 +26,7 @@ const Routes = () => {
         <Route path="/login" exact component={LoginPage}></Route>
         <Route path="/signup" exact component={SignupPage}></Route>
         <PrivateRoute path="/user/dashboard" exact component={UserDashboardPage} />
+        <PrivateRoute path="/profile/:userId" exact component={UserProfilePage} />
         <AdminRoute path="/admin/dashboard" exact component={AdminDashboardPage} />
         <AdminRoute path="/admin/orders" exact component={OrdersPage} />
         <AdminRoute path="/create/category" exact component={CreateCategoryPage} />
