@@ -15,6 +15,7 @@ const AdminDashboardPage: React.FunctionComponent = () => {
         <li className="list-group-item"> <Link to="/create/category">Create Category</Link></li>
         <li className="list-group-item"><Link to="/create/product">Create Product</Link></li>
         <li className="list-group-item"><Link to="/admin/orders">View Orders</Link></li>
+        <li className="list-group-item"><Link to="/admin/products">Manage Products</Link></li>
       </ul>
     </div>
   )

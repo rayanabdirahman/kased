@@ -10,6 +10,7 @@ import UserProfilePage from '../pages/user/Profile';
 import AdminDashboardPage from '../pages/admin/Dashboard';
 import CreateCategoryPage from '../pages/admin/CreateCategory';
 import CreateProductPage from '../pages/admin/CreateProduct';
+import ManageProductsPage from '../pages/admin/ManageProductsPage';
 import OrdersPage from '../pages/admin/Orders';
 import Shop from '../pages/core/Shop';
 import ProductPage from '../pages/core/Product';
@@ -29,6 +30,7 @@ const Routes = () => {
         <PrivateRoute path="/profile/:userId" exact component={UserProfilePage} />
         <AdminRoute path="/admin/dashboard" exact component={AdminDashboardPage} />
         <AdminRoute path="/admin/orders" exact component={OrdersPage} />
+        <AdminRoute path="/admin/products" exact component={ManageProductsPage} />
         <AdminRoute path="/create/category" exact component={CreateCategoryPage} />
         <AdminRoute path="/create/product" exact component={CreateProductPage} />
       </Switch>
