@@ -132,7 +132,7 @@ const Shop: React.FunctionComponent = () => {
           <div className="row">
             {
               filteredResults.map((product: any, index: number) => (
-                <div key={`filtered-product-card--${index}`} className="col-4 mb-3">
+                <div key={`filtered-product-card--${index}`} className="col-3 mb-3">
                   <Card product={product} />
                 </div>
               ))
@@ -140,7 +140,7 @@ const Shop: React.FunctionComponent = () => {
           </div>
           <hr/>
           {
-            (size > 0 && size >= limit) ? <button onClick={loadMoreProducts} className="btn btn-warning mb-5">Load more</button> : null
+            (size > 0 && size >= limit) ? <button onClick={loadMoreProducts} className="btn btn-secondary btn-lg btn-block mb-5">Load more</button> : null
           }
         </div>
       </div>
