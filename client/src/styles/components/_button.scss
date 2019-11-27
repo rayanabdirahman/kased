@@ -1,0 +1,23 @@
+.btn {
+  border-radius: 0;
+  margin-right: 24px;
+  border: 0;
+}
+
+.btn-primary {
+  background-color: $color-teal;
+  color: $color-dark-blue;
+  font-weight: $font-weight--regular;
+  font-size: 16px;
+
+  &:hover,
+  &:active,
+  &:visited {
+    background-color: darken( $color-teal, 20% );
+    color: $color-dark-blue;
+  }
+}
+
+.btn-lg {
+  padding: .5rem 3rem;
+}
