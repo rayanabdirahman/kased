@@ -50,7 +50,7 @@ const HomePage: React.FunctionComponent = () => {
   
   return (
     <Layout title="Kased" description="Warehouse prices without the hassle">
-      <Search />
+      {/* <Search />
       <h2 className="mb-4">New Arrivals</h2>
       <div className="row">
         { productsByArrival.map((product: any, index: number) => (
@@ -67,7 +67,7 @@ const HomePage: React.FunctionComponent = () => {
             <Card product={product} />
           </div>
         ))}
-      </div>
+      </div> */}
 
     </Layout>
   )

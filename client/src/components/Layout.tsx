@@ -11,18 +11,18 @@ interface Props {
 const Layout: React.FunctionComponent<Props> = ({children, showHero=true, title, description, }) => (
   <React.Fragment>
     <Navbar />
-    {
+    {/* {
       showHero ? <Hero title={title} description={description}/> : null
-    }
+    } */}
 
     <div className="container-fluid">
       { children }
     </div>
-
+{/* 
     <footer>
       <hr/>
       <span>I'm here to stay (Footer)</span>
-    </footer>
+    </footer> */}
 
   </React.Fragment>
 )

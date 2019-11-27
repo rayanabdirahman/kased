@@ -1,0 +1,39 @@
+.navbar {
+  background-color: $color-primary-blue;
+  font-size: $font-size--regular;
+  font-weight: $font-weight--regular;
+  a {
+    color: $color-white;
+  }
+
+  .nav-item-highlight {
+    a {
+      color: $color-teal;
+    }
+  }
+
+  .icon {
+    margin-right: 10px;
+    fill: $color-white;
+  }
+
+  .active {
+    color:red;
+  }
+}
+
+.cart-badge {
+  width: 20px;
+  height: 20px;
+  background-color: $color-teal;
+  color: $color-dark-blue;
+  font-weight: $font-weight--bold;
+  font-size: 14px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+}

@@ -1,9 +1,20 @@
-.cart-badge {
-  width: 25px;
-  height: 25px;
-  background-color: black;
-  color: #fff;
-  font-size: 12px;
-  border-radius: 50%;
-  padding: 2px 4px;
+@import url('https://fonts.googleapis.com/css?family=Assistant:400,700&display=swap');
+
+// variables
+$font-family: 'Assistant', sans-serif;
+$font-size--regular: 16px; 
+$font-weight--bold: 700;
+$font-weight--regular: 400;
+$font-weight--light: 300;
+
+$color-primary-blue: #141EC4;
+$color-dark-blue: #062a6f;
+$color-white: #fff;
+$color-teal: #a7e6d7;
+
+// components
+@import 'components/navbar';
+
+body {
+  font-family: $font-family
 }
