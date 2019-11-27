@@ -3,6 +3,7 @@
 // variables
 $font-family: 'Assistant', sans-serif;
 $font-size--regular: 16px; 
+$font-size--sub-text: 14px; 
 $font-weight--bold: 700;
 $font-weight--regular: 400;
 $font-weight--light: 300;
@@ -10,6 +11,7 @@ $font-weight--light: 300;
 $color-primary-blue: #141EC4;
 $color-dark-blue: #062a6f;
 $color-body-text: #001738;
+$color-second-body-text: #4c6889;
 $color-white: #fff;
 $color-teal: #a7e6d7;
 $color-border-grey: #d8d8d8;
@@ -19,8 +21,17 @@ $color-border-grey: #d8d8d8;
 @import 'components/hero';
 @import 'components/button';
 @import 'components/sellingpoints';
+@import 'components/card';
 
 body {
   font-family: $font-family;
   color: $color-body-text;
+}
+
+.section {
+  padding: 48px 0;
+}
+
+.font-bold {
+  font-weight: $font-weight--bold;
 }

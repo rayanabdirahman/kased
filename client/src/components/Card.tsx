@@ -58,45 +58,62 @@ const Card: React.FunctionComponent<IProps>  = (
     </div>
   }
   
+  const showStockStatus = () => (
+    product.quantity > 0 ? 
+    <span className="badge badge-primary">In stock</span>  : 
+    <span className="badge badge-danger">Out of stock</span>
+  )
+
+  const showAddtoCartButton = () => (
+    showAddToCartButton && <button onClick={addToCart} className="btn btn-secondary btn-outline mr-0">ADD</button>
+  )
+
+  const showRemovefromCartButton = () => (
+    showRemoveFromCartButton &&
+    <button 
+      onClick={() => {
+        removeCartItem(product._id)
+        setRun(!run); // run useEffect in parent Cart
+      }}
+      className="btn-outline-danger mt-2 mb-2">
+      Remove item from Cart
+    </button>
+  )
+  
   return (
-    <div className="card">
-      <div className="card-header">{product.name}</div>
-      <div className="card-body">
+    <div className="card mb-10">
+      <div className="card-header">
+        {/* TODO - REMOVE REDIRCT WHEN CART CONTENT SHOULD BE VISIBLE AT ALL TIME */}
         {shouldRedirect(redirect)}
+
+        {/* SHOW WHETHER PRODUCT IS IN STOCK OR NOT */}
+        {showStockStatus()}
+
+      </div>
+      <div className="card-content">
         <ProductImage item={product} url="product"/>
-        <p className="lead mt-2">
-          {product.description.substring(0, 100)}
-        </p>
-        <p>£{product.price}</p>
-        <p>Category: {product.category && product.category.name}</p>
-        <p>Added on: {moment(product.createdAt).fromNow()}</p>
-        {
-          product.quantity > 0 ? <span className="badge badge-primary badge-pill">In stock</span>  : <span className="badge badge-danger badge-pill">Out of stock</span>
-        }
-        
+        <span className="product-name">{product.name}</span>
+        <span className="product-description">{product.description}</span>
+      </div>
+      <div className="card-footer">
+        <span className="product-price">£{product.price}</span>
+
+        {/* TOGGLE VIEW PRODUCT BUTTON DEPENDING ON PAGE */}
         <Link to={`/product/${product._id}`}>
           {
-            showViewProductButton && <button className="btn-outline-primary mt-2 mb-2">View Product</button>
+            showViewProductButton && <button className="btn btn-primary mt-2 mb-2">View Product</button>
           }
         </Link>
 
-        {
-          showAddToCartButton && <button onClick={addToCart} className="btn-outline-warning mt-2 mb-2">Add to Cart</button>
-        }
+        {/* TOGGLE ADD TO CART BUTTON DEPENDING ON PAGE */}
+        {showAddtoCartButton()}
 
-        {
-          showRemoveFromCartButton &&
-          <button 
-            onClick={() => {
-              removeCartItem(product._id)
-              setRun(!run); // run useEffect in parent Cart
-            }}
-            className="btn-outline-danger mt-2 mb-2">
-            Remove item from Cart
-          </button>
-        }
+        {/* ONLY SHOW REMOVE FROM CART BUTTON ON CART PAGE */}
+        {showRemovefromCartButton()}
 
+        {/* UPDATE CART */}
         {showCartUpdateOptions(cartUpdate)}
+
       </div>
     </div>
   )
