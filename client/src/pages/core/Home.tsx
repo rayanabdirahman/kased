@@ -52,25 +52,36 @@ const HomePage: React.FunctionComponent = () => {
   return (
     <Layout title="Kased" description="Warehouse prices without the hassle">
       <SellingPoints />
-      {/* <Search />
-      <h2 className="mb-4">New Arrivals</h2>
-      <div className="row">
-        { productsByArrival.map((product: any, index: number) => (
-          <div key={`product-card--${index}`} className="col-4 mb-3">
-            <Card product={product} />
-          </div>
-        ))}
-      </div>
 
-      <h2 className="mb-4">Best Sellers</h2>
-      <div className="row">
-        { productsBySell.map((product: any, index: number) => (
-          <div key={`product-card--${index}`} className="col-4 mb-3">
-            <Card product={product} />
-          </div>
-        ))}
-      </div> */}
+      {/* SEARCH COMPONENT */}
+      {/* <Search /> */}
+      {/* SEARCH COMPONENT */}
 
+      {/* NEW ARRIVALS SECTIONS */}
+      <section className="section new-arivals mb-20">
+        <h5 className="font-bold mb-4">NEW ARRIVALS</h5>
+        <div className="row">
+          { productsByArrival.map((product: any, index: number) => (
+            <div key={`new-product-card--${index}`} className="col-3 mb-3">
+              <Card product={product} />
+            </div>
+          ))}
+        </div>
+      </section>
+      {/* NEW ARRIVALS SECTIONS */}
+
+      {/* BEST SELLING SECTION */}
+      <section className="section best-sellers mb-20">
+        <h5 className="font-bold mb-4">BEST SELLERS</h5>
+          <div className="row">
+          { productsBySell.map((product: any, index: number) => (
+            <div key={`best-seller-product-card--${index}`} className="col-3 mb-3">
+              <Card product={product} />
+            </div>
+          ))}
+        </div>
+      </section>
+      {/* BEST SELLING SECTION */}
     </Layout>
   )
 }
