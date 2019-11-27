@@ -10,7 +10,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:client": " cd client && npm run start",
     "dev:server": "cd server && npm run start",
-    "install": "npm install && cd client && npm install && cd .. && cd server && npm install && npm run start:build",
     "start": "concurrently \"npm run dev:server\"  \"npm run dev:client\""
   },
   "repository": {
