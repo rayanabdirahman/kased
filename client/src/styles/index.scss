@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Assistant:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Assistant:300,400,700&display=swap');
 
 // variables
 $font-family: 'Assistant', sans-serif;
@@ -9,14 +9,18 @@ $font-weight--light: 300;
 
 $color-primary-blue: #141EC4;
 $color-dark-blue: #062a6f;
+$color-body-text: #001738;
 $color-white: #fff;
 $color-teal: #a7e6d7;
+$color-border-grey: #d8d8d8;
 
 // components
 @import 'components/navbar';
 @import 'components/hero';
 @import 'components/button';
+@import 'components/sellingpoints';
 
 body {
-  font-family: $font-family
+  font-family: $font-family;
+  color: $color-body-text;
 }

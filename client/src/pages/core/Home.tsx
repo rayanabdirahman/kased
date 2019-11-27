@@ -3,6 +3,7 @@ import Layout from '../../components/Layout';
 import { getProductsToSort } from '../../api/product';
 import Card from '../../components/Card';
 import Search from '../../components/Search';
+import SellingPoints from '../../components/SellingPoints';
 
 const HomePage: React.FunctionComponent = () => {
   const [productsBySell, setproductsBySell] = React.useState<any>([])
@@ -50,6 +51,7 @@ const HomePage: React.FunctionComponent = () => {
   
   return (
     <Layout title="Kased" description="Warehouse prices without the hassle">
+      <SellingPoints />
       {/* <Search />
       <h2 className="mb-4">New Arrivals</h2>
       <div className="row">
