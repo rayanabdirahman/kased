@@ -1,0 +1,16 @@
+.jumbotron {
+  height: 50vh;
+  background-color: $color-primary-blue;
+  color: $color-white;
+  text-align: center;
+  border-radius: 0;
+
+  .hero-header {
+    margin-bottom: 30px;
+  }
+
+  .hero-lead {
+    font-size: 24px;
+    font-weight: $font-weight--regular;
+  }
+}

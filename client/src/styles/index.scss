@@ -13,6 +13,7 @@ $color-white: #fff;
 $color-teal: #a7e6d7;
 
 // components
+@import 'components/hero';
 @import 'components/navbar';
 
 body {
