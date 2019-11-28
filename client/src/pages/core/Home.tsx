@@ -62,7 +62,7 @@ const HomePage: React.FunctionComponent = () => {
         <h5 className="font-bold mb-4">NEW ARRIVALS</h5>
         <div className="row">
           { productsByArrival.map((product: any, index: number) => (
-            <div key={`new-product-card--${index}`} className="col-3 mb-3">
+            <div key={`new-product-card--${index}`} className="col-2 mb-3">
               <Card product={product} />
             </div>
           ))}
@@ -75,7 +75,7 @@ const HomePage: React.FunctionComponent = () => {
         <h5 className="font-bold mb-4">BEST SELLERS</h5>
           <div className="row">
           { productsBySell.map((product: any, index: number) => (
-            <div key={`best-seller-product-card--${index}`} className="col-3 mb-3">
+            <div key={`best-seller-product-card--${index}`} className="col-2 mb-3">
               <Card product={product} />
             </div>
           ))}
